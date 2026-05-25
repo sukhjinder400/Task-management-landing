@@ -74,11 +74,11 @@ function Mark({ size = 44 }) {
 
 function Brand({ compact = false }) {
   return (
-    <a href="#" className="flex items-center gap-1.5">
-      <Mark size={compact ? 34 : 46} />
+    <a href="#" className="flex items-center gap-2">
+      <Mark size={compact ? 44 : 62} />
       <div>
-        <div className={`${compact ? 'text-xl' : 'text-[32px]'} font-semibold tracking-tight leading-none text-[color:var(--text)]`}>Asystence</div>
-        {!compact && <div className="mt-1.5 text-[10px] uppercase tracking-[0.18em] font-semibold text-[color:var(--text-soft)]">System Intelligence</div>}
+        <div className={`${compact ? 'text-[22px]' : 'text-[36px]'} font-semibold tracking-tight leading-none text-[color:var(--text)]`}>Asystence</div>
+        <div className={`${compact ? 'mt-1 text-[8px]' : 'mt-1.5 text-[10px]'} uppercase tracking-[0.18em] font-semibold text-[color:var(--text-soft)]`}>System Intelligence</div>
       </div>
     </a>
   )
@@ -87,8 +87,8 @@ function Brand({ compact = false }) {
 function Navbar() {
   const [open, setOpen] = useState(false)
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-[color:var(--border)] bg-[var(--app-bg)]/92 backdrop-blur">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-[color:var(--border)] bg-[var(--app-bg)]">
+      <div className="mx-auto flex h-20 w-full max-w-[1760px] items-center justify-between px-6 sm:px-10 lg:px-14 xl:px-16">
         <Brand compact />
         <nav className="hidden items-center gap-7 md:flex">
           {NAV_LINKS.map((link) => (
@@ -153,10 +153,10 @@ function ProductPreview() {
 
 function Hero() {
   return (
-    <section className="min-h-screen pt-16">
-      <div className="mx-auto grid min-h-[calc(100vh-4rem)] max-w-7xl items-center gap-10 px-5 py-12 sm:px-8 lg:grid-cols-2 lg:gap-14">
+    <section className="min-h-screen pt-20">
+      <div className="mx-auto grid min-h-[calc(100vh-5rem)] w-full max-w-[1760px] items-center gap-12 px-6 py-12 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(520px,0.92fr)] lg:gap-16 lg:px-14 xl:px-16 2xl:gap-20">
         <div>
-          <div className="mb-10">
+          <div className="mb-9">
             <Brand />
           </div>
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">Workspace command center</p>
@@ -202,7 +202,7 @@ function SectionHeader({ eyebrow, title, children }) {
 function Features() {
   return (
     <section id="features" className="border-t border-[color:var(--border)] py-24">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
         <SectionHeader eyebrow="Everything included" title="Replace scattered tools with one connected workspace.">
           Projects, chat, attendance, intelligence, reviews, knowledge, and automation all share the same execution context.
         </SectionHeader>
@@ -223,7 +223,7 @@ function Features() {
 function Workflow() {
   return (
     <section id="workflow" className="border-t border-[color:var(--border)] py-24">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
         <SectionHeader eyebrow="Workflow" title="From workspace setup to AI-guided execution.">
           Teams can start simple and grow into a complete operational system without switching tools.
         </SectionHeader>
@@ -244,7 +244,7 @@ function Workflow() {
 function Pricing() {
   return (
     <section id="pricing" className="border-t border-[color:var(--border)] py-24">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
         <SectionHeader eyebrow="Pricing" title="Simple plans for teams at every stage.">
           Start free, then scale into AI intelligence, reviews, OKRs, and automation when your workspace needs it.
         </SectionHeader>
@@ -279,7 +279,7 @@ function Downloads() {
   ]
   return (
     <section id="downloads" className="border-t border-[color:var(--border)] py-24">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
         <SectionHeader eyebrow="Downloads" title="Use Asystence on web, desktop, and mobile.">
           Your workspace stays available wherever your team works.
         </SectionHeader>
@@ -303,7 +303,7 @@ function Downloads() {
 function Signup() {
   return (
     <section id="signup" className="border-t border-[color:var(--border)] py-24">
-      <div className="mx-auto grid max-w-7xl gap-8 px-5 sm:px-8 lg:grid-cols-[1fr_520px] lg:items-center">
+      <div className="mx-auto grid w-full max-w-[1760px] gap-8 px-6 sm:px-10 lg:grid-cols-[1fr_560px] lg:items-center lg:px-14 xl:px-16">
         <SectionHeader eyebrow="Get started" title="Create your workspace in seconds.">
           Sign up with Google or go directly to the app. Your team can start with projects, chat, and attendance immediately.
         </SectionHeader>
@@ -320,7 +320,7 @@ function Signup() {
 function Contact() {
   return (
     <section id="contact" className="border-t border-[color:var(--border)] py-24">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
+      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
         <div className="rounded-xl border border-[color:var(--border)] p-8 sm:p-10">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">Contact</p>
           <h2 className="mt-4 text-[34px] font-semibold text-[color:var(--text)]">Need a custom plan?</h2>
@@ -338,7 +338,7 @@ function Contact() {
 function Footer() {
   return (
     <footer className="border-t border-[color:var(--border)] py-12">
-      <div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 sm:px-8 md:flex-row md:items-center md:justify-between">
+      <div className="mx-auto flex w-full max-w-[1760px] flex-col gap-6 px-6 sm:px-10 md:flex-row md:items-center md:justify-between lg:px-14 xl:px-16">
         <Brand compact />
         <div className="flex flex-wrap gap-5 text-sm text-[color:var(--text-muted)]">
           <a href="#features" className="hover:text-[color:var(--text)]">Features</a>
