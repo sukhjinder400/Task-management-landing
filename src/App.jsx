@@ -66,19 +66,15 @@ const PLANS = [
 
 function Mark({ size = 44 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 44 44" fill="none" aria-hidden="true">
-      <rect x="2" y="2" width="40" height="40" rx="10" fill="none" stroke="var(--primary)" strokeWidth="2" />
-      <circle cx="22" cy="11" r="3.5" fill="var(--primary)" />
-      <circle cx="12" cy="33" r="3" fill="var(--primary)" />
-      <circle cx="32" cy="33" r="3" fill="var(--primary)" />
-      <path d="M22 14.5L12 30M22 14.5L32 30M16 24H28" stroke="var(--primary)" strokeWidth="2.2" strokeLinecap="round" />
-    </svg>
+    <span className="flex shrink-0 items-center justify-center" style={{ width: size, height: size }} aria-hidden="true">
+      <img src="/asystence-logo.png" alt="" className="h-full w-full object-contain" />
+    </span>
   )
 }
 
 function Brand({ compact = false }) {
   return (
-    <a href="#" className="flex items-center gap-2.5">
+    <a href="#" className="flex items-center gap-1.5">
       <Mark size={compact ? 34 : 46} />
       <div>
         <div className={`${compact ? 'text-xl' : 'text-[32px]'} font-semibold tracking-tight leading-none text-[color:var(--text)]`}>Asystence</div>
