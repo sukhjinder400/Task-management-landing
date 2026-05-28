@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 const APP_URL = 'https://app.asystence.com'
-const GOOGLE_AUTH = 'https://asystence-api-616077735050.asia-south1.run.app/auth/google?mode=register'
+const SIGNUP_URL = `${APP_URL}/signup`
 const WIN_INSTALLER_URL = 'https://github.com/sukhjinder-create/Task-management/releases/download/v1.0.0/Asystence.Setup.0.0.0.exe'
 const WIN_PORTABLE_URL = 'https://github.com/sukhjinder-create/Task-management/releases/download/v1.0.0/Asystence.0.0.0.exe'
 const ANDROID_APK_URL = 'https://pub-5e8d0742f1224c3dbf01efc7851e96f5.r2.dev/app-release.apk'
@@ -30,7 +30,7 @@ const STATS = [
 ]
 
 const WORKFLOW = [
-  ['Create your workspace', 'Start with Google, invite the team, and set permissions for admins, managers, and contributors.'],
+  ['Create your workspace', 'Name the workspace, create the first admin account, then invite managers and contributors from inside the app.'],
   ['Run projects and conversations', 'Plan tasks, track owners, chat in context, and keep project decisions attached to execution.'],
   ['Let intelligence surface risk', 'AI turns workspace signals into summaries, coaching prompts, and operational next steps.'],
   ['Measure what matters', 'Use attendance, reports, reviews, OKRs, and health scores to keep the team aligned.'],
@@ -43,7 +43,7 @@ const PLANS = [
     period: 'forever to get started',
     features: ['Up to 10 members', 'Task and sprint management', 'Team chat and channels', 'Basic attendance', 'Wiki spaces', '5 GB storage'],
     cta: 'Start Free',
-    href: '#signup',
+    href: SIGNUP_URL,
   },
   {
     name: 'Pro',
@@ -52,7 +52,7 @@ const PLANS = [
     highlight: true,
     features: ['Up to 50 members', 'Everything in Basic', 'AI insights and coaching', 'Performance reviews', 'OKR tracking', 'Git automation', '50 GB storage'],
     cta: 'Start Pro Trial',
-    href: '#signup',
+    href: SIGNUP_URL,
   },
   {
     name: 'Enterprise',
@@ -99,7 +99,7 @@ function Navbar() {
         </nav>
         <div className="hidden items-center gap-3 md:flex">
           <a href={APP_URL} className="text-sm font-medium text-[color:var(--text-muted)] transition-colors hover:text-[color:var(--text)]">Sign in</a>
-          <a href="#signup" className="rounded-lg bg-[var(--primary)] px-4 py-2 text-sm font-semibold text-[color:var(--primary-contrast)] transition-colors hover:bg-[var(--primary-hover)]">Get started</a>
+          <a href={SIGNUP_URL} className="rounded-lg bg-[var(--primary)] px-4 py-2 text-sm font-semibold text-[color:var(--primary-contrast)] transition-colors hover:bg-[var(--primary-hover)]">Get started</a>
         </div>
         <button className="md:hidden text-[color:var(--text)]" onClick={() => setOpen((value) => !value)} aria-label="Toggle navigation">
           {open ? 'Close' : 'Menu'}
@@ -112,7 +112,7 @@ function Navbar() {
               <a key={link.href} href={link.href} onClick={() => setOpen(false)} className="text-sm text-[color:var(--text-muted)]">{link.label}</a>
             ))}
             <a href={APP_URL} className="text-sm text-[color:var(--text-muted)]">Sign in</a>
-            <a href="#signup" onClick={() => setOpen(false)} className="rounded-lg bg-[var(--primary)] px-4 py-2 text-center text-sm font-semibold text-[color:var(--primary-contrast)]">Get started</a>
+            <a href={SIGNUP_URL} onClick={() => setOpen(false)} className="rounded-lg bg-[var(--primary)] px-4 py-2 text-center text-sm font-semibold text-[color:var(--primary-contrast)]">Get started</a>
           </div>
         </div>
       )}
@@ -167,7 +167,7 @@ function Hero() {
             Asystence brings task execution, team communication, AI insights, attendance, reviews, and admin control into a single operational surface.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a href="#signup" className="inline-flex min-h-[52px] items-center justify-center rounded-lg bg-[var(--primary)] px-6 text-base font-semibold text-[color:var(--primary-contrast)] transition-colors hover:bg-[var(--primary-hover)]">
+            <a href={SIGNUP_URL} className="inline-flex min-h-[52px] items-center justify-center rounded-lg bg-[var(--primary)] px-6 text-base font-semibold text-[color:var(--primary-contrast)] transition-colors hover:bg-[var(--primary-hover)]">
               Start free
             </a>
             <a href="#features" className="inline-flex min-h-[52px] items-center justify-center rounded-lg border border-[color:var(--border)] px-6 text-base font-semibold text-[color:var(--text)] transition-colors hover:bg-[var(--surface-soft)]">
@@ -305,10 +305,10 @@ function Signup() {
     <section id="signup" className="border-t border-[color:var(--border)] py-24">
       <div className="mx-auto grid w-full max-w-[1760px] gap-8 px-6 sm:px-10 lg:grid-cols-[1fr_560px] lg:items-center lg:px-14 xl:px-16">
         <SectionHeader eyebrow="Get started" title="Create your workspace in seconds.">
-          Sign up with Google or go directly to the app. Your team can start with projects, chat, and attendance immediately.
+          Name your workspace, create the first admin account, then choose email/password or Google on the app signup screen.
         </SectionHeader>
         <div className="rounded-lg border border-[color:var(--border)] p-6">
-          <a href={GOOGLE_AUTH} className="inline-flex min-h-[52px] w-full items-center justify-center rounded-lg bg-[var(--primary)] text-base font-semibold text-[color:var(--primary-contrast)] hover:bg-[var(--primary-hover)]">Continue with Google</a>
+          <a href={SIGNUP_URL} className="inline-flex min-h-[52px] w-full items-center justify-center rounded-lg bg-[var(--primary)] text-base font-semibold text-[color:var(--primary-contrast)] hover:bg-[var(--primary-hover)]">Create free trial</a>
           <a href={`${APP_URL}/login`} className="mt-3 inline-flex min-h-[52px] w-full items-center justify-center rounded-lg border border-[color:var(--border)] text-base font-semibold text-[color:var(--text)] hover:bg-[var(--surface-soft)]">Sign in with email</a>
           <p className="mt-5 text-xs leading-5 text-[color:var(--text-soft)]">Starts on the Basic plan. Upgrade when your team needs AI intelligence, reviews, and automation.</p>
         </div>
@@ -327,7 +327,7 @@ function Contact() {
           <p className="mt-3 max-w-2xl text-base leading-7 text-[color:var(--text-muted)]">For enterprise pricing, partnerships, or deployment questions, reach out and we will respond within 24 hours.</p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <a href="mailto:hello@asystence.com" className="inline-flex min-h-[52px] items-center justify-center rounded-lg bg-[var(--primary)] px-6 text-base font-semibold text-[color:var(--primary-contrast)] hover:bg-[var(--primary-hover)]">hello@asystence.com</a>
-            <a href="#signup" className="inline-flex min-h-[52px] items-center justify-center rounded-lg border border-[color:var(--border)] px-6 text-base font-semibold text-[color:var(--text)] hover:bg-[var(--surface-soft)]">Start free</a>
+            <a href={SIGNUP_URL} className="inline-flex min-h-[52px] items-center justify-center rounded-lg border border-[color:var(--border)] px-6 text-base font-semibold text-[color:var(--text)] hover:bg-[var(--surface-soft)]">Start free</a>
           </div>
         </div>
       </div>
