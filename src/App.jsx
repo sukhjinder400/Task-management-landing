@@ -1,4 +1,23 @@
 import React, { useEffect, useState } from 'react'
+import {
+  CONTENT_HOME_LINKS,
+  FOOTER_CONTENT_LINKS,
+  buildContentPageJsonLd,
+  getContentPage,
+  getContentRelatedPaths,
+} from './contentPages.js'
+import {
+  HOME_FAQS,
+  HOME_RELATED_LINKS,
+  HOME_SEO,
+  MARKETING_PAGE_LIST,
+  buildHomeJsonLd,
+  buildMarketingPageJsonLd,
+  buildPolicyJsonLd,
+  getMarketingPage,
+  getRelatedPages,
+} from './marketingPages.js'
+import { applySeo } from './seo.js'
 
 const APP_URL = 'https://app.asystence.com'
 const SIGNUP_URL = `${APP_URL}/signup`
@@ -7,33 +26,37 @@ const WIN_PORTABLE_URL = 'https://github.com/sukhjinder-create/Task-management/r
 const ANDROID_APK_URL = 'https://pub-5e8d0742f1224c3dbf01efc7851e96f5.r2.dev/app-release.apk'
 
 const NAV_LINKS = [
-  { label: 'Features', href: '/#features' },
-  { label: 'Workflow', href: '/#workflow' },
+  { label: 'Features', href: '/features' },
+  { label: 'Resources', href: '/resources' },
+  { label: 'Guides', href: '/guides' },
+  { label: 'Compare', href: '/compare' },
+  { label: 'Company', href: '/company' },
   { label: 'Pricing', href: '/#pricing' },
-  { label: 'Downloads', href: '/#downloads' },
 ]
 
 const FEATURES = [
-  ['Project execution', 'Tasks, subtasks, sprint boards, custom workflows, project health, and blocker visibility in one workspace.'],
-  ['Team communication', 'Channels, direct messages, mentions, huddles, and updates stay connected to the work they belong to.'],
-  ['AI intelligence', 'Executive summaries, workspace health, coaching nudges, risk signals, and AI-assisted operational context.'],
-  ['Attendance and time', 'One-click attendance, breaks, lunch, idle signals, timesheets, and admin-ready activity visibility.'],
-  ['Reviews and OKRs', 'Performance reviews, goals, feedback cycles, monthly scoring, and alignment rituals for growing teams.'],
-  ['Knowledge and integrations', 'Wiki, Git automation, Asana migration, Slack migration, backups, SSO, API, and webhooks.'],
+  ['AI work management', 'Tasks, projects, team communication, workspace signals, and AI-assisted context work together in one operating surface.'],
+  ['Task management', 'Plan assignments, subtasks, owners, workflows, blockers, and project execution without separating work from context.'],
+  ['Project management with chat', 'Keep project boards, task ownership, channels, direct messages, mentions, and huddles in one workspace.'],
+  ['Team communication', 'Channels, direct messages, mentions, huddles, and updates stay close to the work they belong to.'],
+  ['Team collaboration software', 'Coordinate tasks, conversations, knowledge, handoffs, and shared workspace context across internal teams.'],
+  ['Operations work management', 'Connect recurring work, admin visibility, reporting, attendance, reviews, OKRs, and AI-assisted signals.'],
+  ['Workspace management', 'Create team spaces for projects, people, communication, knowledge, reporting, and operational visibility.'],
+  ['AI work assistant', 'Summaries, workspace health, coaching nudges, risk signals, and operational context help teams follow through.'],
 ]
 
-const STATS = [
-  ['500+', 'Teams onboarded'],
-  ['50K+', 'Tasks tracked'],
-  ['10+', 'Countries active'],
-  ['99.9%', 'Uptime target'],
+const PRODUCT_SIGNALS = [
+  ['Work OS', 'Tasks, chat, workspace operations, and AI context'],
+  ['Projects', 'Boards, workflows, ownership, and blockers'],
+  ['Teams', 'Channels, direct messages, mentions, and huddles'],
+  ['Insights', 'Summaries, health signals, reviews, and OKRs'],
 ]
 
 const WORKFLOW = [
-  ['Create your workspace', 'Name the workspace, create the first admin account, then invite managers and contributors from inside the app.'],
+  ['Create your workspace', 'Name the workspace, create the first admin account, then invite managers and contributors into a shared operating layer.'],
   ['Run projects and conversations', 'Plan tasks, track owners, chat in context, and keep project decisions attached to execution.'],
-  ['Let intelligence surface risk', 'AI turns workspace signals into summaries, coaching prompts, and operational next steps.'],
-  ['Measure what matters', 'Use attendance, reports, reviews, OKRs, and health scores to keep the team aligned.'],
+  ['Let intelligence surface risk', 'AI-assisted summaries, coaching prompts, and workspace health signals help teams notice what needs attention.'],
+  ['Measure what matters', 'Use attendance, reports, reviews, OKRs, and health views to keep internal teams aligned.'],
 ]
 
 const PLANS = [
@@ -146,12 +169,6 @@ function Brand({ compact = false }) {
   )
 }
 
-function setPageTitle(title) {
-  if (typeof document !== 'undefined') {
-    document.title = title ? `${title} | Asystence` : 'Asystence - The All-in-One Workspace Platform'
-  }
-}
-
 function Navbar() {
   const [open, setOpen] = useState(false)
   return (
@@ -230,23 +247,23 @@ function Hero() {
           <div className="mb-9">
             <Brand />
           </div>
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">Workspace command center</p>
+          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">AI workspace operating system</p>
           <h1 className="text-[42px] font-semibold leading-[1.04] tracking-tight text-[color:var(--text)] sm:text-[56px] lg:text-[68px]">
-            Run projects, people, and intelligence from one focused workspace.
+            AI work management software and work OS for teams.
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-[color:var(--text-muted)]">
-            Asystence brings task execution, team communication, AI insights, attendance, reviews, and admin control into a single operational surface.
+            Asystence brings task management, team communication, project execution, workspace collaboration, attendance, reviews, and AI-assisted operational context into a single work OS.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a href={SIGNUP_URL} className="inline-flex min-h-[52px] items-center justify-center rounded-lg bg-[var(--primary)] px-6 text-base font-semibold text-[color:var(--primary-contrast)] transition-colors hover:bg-[var(--primary-hover)]">
               Start free
             </a>
-            <a href="/#features" className="inline-flex min-h-[52px] items-center justify-center rounded-lg border border-[color:var(--border)] px-6 text-base font-semibold text-[color:var(--text)] transition-colors hover:bg-[var(--surface-soft)]">
-              See features
+            <a href="/features/work-management" className="inline-flex min-h-[52px] items-center justify-center rounded-lg border border-[color:var(--border)] px-6 text-base font-semibold text-[color:var(--text)] transition-colors hover:bg-[var(--surface-soft)]">
+              Explore work OS
             </a>
           </div>
           <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
-            {STATS.map(([value, label]) => (
+            {PRODUCT_SIGNALS.map(([value, label]) => (
               <div key={label} className="border border-[color:var(--border)] rounded-lg p-4">
                 <p className="text-2xl font-semibold text-[color:var(--text)]">{value}</p>
                 <p className="mt-1 text-xs text-[color:var(--text-muted)]">{label}</p>
@@ -270,20 +287,75 @@ function SectionHeader({ eyebrow, title, children }) {
   )
 }
 
+function featureHref(title) {
+  if (title.includes('Project management')) return '/features/project-management-with-chat'
+  if (title.includes('Team collaboration')) return '/features/team-collaboration-software'
+  if (title.includes('Operations')) return '/features/operations-work-management'
+  if (title.includes('Task')) return '/features/task-management'
+  if (title.includes('Team communication')) return '/features/team-communication'
+  if (title.includes('AI work assistant')) return '/features/ai-work-assistant'
+  if (title.includes('Workspace')) return '/features/workspaces'
+  return '/features/work-management'
+}
+
+function RelatedLinks({ eyebrow = 'Explore Asystence', title = 'Go deeper into the workspace.', children, links }) {
+  if (!links?.length) return null
+
+  return (
+    <section className="border-t border-[color:var(--border)] py-24">
+      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+        <SectionHeader eyebrow={eyebrow} title={title}>
+          {children}
+        </SectionHeader>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {links.map((link) => (
+            <a key={link.href || link.path} href={link.href || link.path} className="rounded-lg border border-[color:var(--border)] p-5 transition-colors hover:bg-[var(--surface-soft)]">
+              <h3 className="text-lg font-semibold text-[color:var(--text)]">{link.label || link.navLabel}</h3>
+              <p className="mt-3 text-sm leading-6 text-[color:var(--text-muted)]">{link.description || link.intro}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function FAQSection({ items }) {
+  if (!items?.length) return null
+
+  return (
+    <section className="border-t border-[color:var(--border)] py-24">
+      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+        <SectionHeader eyebrow="FAQ" title="Clear answers for teams evaluating Asystence.">
+          Practical context for teams comparing AI work management, team communication, and workspace platforms.
+        </SectionHeader>
+        <div className="grid gap-4 lg:grid-cols-3">
+          {items.map((item) => (
+            <div key={item.question} className="rounded-lg border border-[color:var(--border)] p-5">
+              <h3 className="text-lg font-semibold text-[color:var(--text)]">{item.question}</h3>
+              <p className="mt-3 text-sm leading-6 text-[color:var(--text-muted)]">{item.answer}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function Features() {
   return (
     <section id="features" className="border-t border-[color:var(--border)] py-24">
       <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
-        <SectionHeader eyebrow="Everything included" title="Replace scattered tools with one connected workspace.">
-          Projects, chat, attendance, intelligence, reviews, knowledge, and automation all share the same execution context.
+        <SectionHeader eyebrow="Everything included" title="A unified work OS for execution, communication, and team intelligence.">
+          Projects, chat, attendance, intelligence, reviews, knowledge, and automation all share the same workspace context.
         </SectionHeader>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {FEATURES.map(([title, description]) => (
-            <div key={title} className="rounded-lg border border-[color:var(--border)] p-5 transition-colors hover:bg-[var(--surface-soft)]">
+            <a key={title} href={featureHref(title)} className="rounded-lg border border-[color:var(--border)] p-5 transition-colors hover:bg-[var(--surface-soft)]">
               <div className="mb-4 h-9 w-9 rounded-lg border border-[color:var(--primary)]" />
               <h3 className="text-lg font-semibold text-[color:var(--text)]">{title}</h3>
               <p className="mt-3 text-sm leading-6 text-[color:var(--text-muted)]">{description}</p>
-            </div>
+            </a>
           ))}
         </div>
       </div>
@@ -406,6 +478,285 @@ function Contact() {
   )
 }
 
+function resolvePageLink(path) {
+  const marketingPage = getMarketingPage(path)
+  const contentPage = getContentPage(path)
+  const page = marketingPage || contentPage
+
+  if (!page) {
+    return {
+      href: path,
+      label: path.replace(/^\//, ''),
+      description: 'Explore this Asystence resource.',
+    }
+  }
+
+  return {
+    href: page.path || path,
+    label: page.navLabel || page.title,
+    description: page.short || page.intro,
+  }
+}
+
+function ChecklistSection({ title = 'Checklist', items }) {
+  if (!items?.length) return null
+
+  return (
+    <section className="border-t border-[color:var(--border)] py-24">
+      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+        <SectionHeader eyebrow="Implementation" title={title}>
+          Practical next steps teams can use while evaluating or adopting the Asystence operating model.
+        </SectionHeader>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {items.map((item, index) => (
+            <div key={item} className="rounded-lg border border-[color:var(--border)] p-5">
+              <p className="text-xs font-semibold text-[color:var(--primary)]">{String(index + 1).padStart(2, '0')}</p>
+              <p className="mt-4 text-sm leading-6 text-[color:var(--text-muted)]">{item}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function LinkGroups({ groups }) {
+  if (!groups?.length) return null
+
+  return (
+    <section className="border-t border-[color:var(--border)] py-24">
+      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+        <SectionHeader eyebrow="Information architecture" title="Explore the connected resource system.">
+          These crawlable paths connect category education, product-led docs, templates, comparisons, and authority resources.
+        </SectionHeader>
+        <div className="grid gap-4 lg:grid-cols-3">
+          {groups.map((group) => (
+            <div key={group.title} className="rounded-lg border border-[color:var(--border)] p-5">
+              <h2 className="text-lg font-semibold text-[color:var(--text)]">{group.title}</h2>
+              <div className="mt-5 space-y-3">
+                {group.links.map((path) => {
+                  const link = resolvePageLink(path)
+                  return (
+                    <a key={path} href={link.href} className="block rounded-lg border border-[color:var(--border)] p-4 transition-colors hover:bg-[var(--surface-soft)]">
+                      <h3 className="text-sm font-semibold text-[color:var(--text)]">{link.label}</h3>
+                      <p className="mt-2 text-xs leading-5 text-[color:var(--text-muted)]">{link.description}</p>
+                    </a>
+                  )
+                })}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function ComparisonTable({ rows }) {
+  if (!rows?.length) return null
+
+  return (
+    <section className="border-t border-[color:var(--border)] py-24">
+      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+        <SectionHeader eyebrow="Balanced comparison" title="Compare fit by buyer need.">
+          These comparisons are intended to clarify product fit, not to make unsupported claims of superiority.
+        </SectionHeader>
+        <div className="overflow-hidden rounded-lg border border-[color:var(--border)]">
+          <table className="w-full border-collapse text-left text-sm">
+            <thead className="bg-[var(--surface-soft)] text-[color:var(--text)]">
+              <tr>
+                <th className="border-b border-[color:var(--border)] p-4 font-semibold">Criteria</th>
+                <th className="border-b border-[color:var(--border)] p-4 font-semibold">Asystence</th>
+                <th className="border-b border-[color:var(--border)] p-4 font-semibold">Alternative fit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rows.map(([criteria, asystence, alternative]) => (
+                <tr key={criteria} className="border-t border-[color:var(--border)]">
+                  <th className="p-4 align-top font-semibold text-[color:var(--text)]">{criteria}</th>
+                  <td className="p-4 align-top leading-6 text-[color:var(--text-muted)]">{asystence}</td>
+                  <td className="p-4 align-top leading-6 text-[color:var(--text-muted)]">{alternative}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function ContentPage({ page }) {
+  const relatedLinks = getContentRelatedPaths(page).map(resolvePageLink)
+
+  return (
+    <main className="pt-20">
+      <section className="border-t border-[color:var(--border)] py-20 sm:py-24">
+        <div className="mx-auto grid w-full max-w-[1760px] gap-10 px-6 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(420px,0.72fr)] lg:items-center lg:px-14 xl:px-16">
+          <div>
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">{page.eyebrow}</p>
+            <h1 className="max-w-4xl text-[42px] font-semibold leading-[1.04] tracking-tight text-[color:var(--text)] sm:text-[56px] lg:text-[64px]">
+              {page.title}
+            </h1>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-[color:var(--text-muted)]">{page.intro}</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a href={SIGNUP_URL} className="inline-flex min-h-[52px] items-center justify-center rounded-lg bg-[var(--primary)] px-6 text-base font-semibold text-[color:var(--primary-contrast)] transition-colors hover:bg-[var(--primary-hover)]">
+                Start free
+              </a>
+              <a href="/resources" className="inline-flex min-h-[52px] items-center justify-center rounded-lg border border-[color:var(--border)] px-6 text-base font-semibold text-[color:var(--text)] transition-colors hover:bg-[var(--surface-soft)]">
+                Browse resources
+              </a>
+            </div>
+          </div>
+          <div className="rounded-xl border border-[color:var(--border)] p-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">What this covers</p>
+            <div className="mt-5 space-y-3">
+              {page.highlights.map(([title, description]) => (
+                <div key={title} className="rounded-lg border border-[color:var(--border)] p-4">
+                  <h2 className="text-base font-semibold text-[color:var(--text)]">{title}</h2>
+                  <p className="mt-2 text-sm leading-6 text-[color:var(--text-muted)]">{description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-[color:var(--border)] py-24">
+        <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+          <SectionHeader eyebrow="Resource depth" title={`${page.navLabel} in context.`}>
+            A product-led resource for teams evaluating work management, team communication, workspace collaboration, AI assistance, and internal operations.
+          </SectionHeader>
+          <div className="grid gap-4 md:grid-cols-3">
+            {page.sections.map(([title, description]) => (
+              <div key={title} className="rounded-lg border border-[color:var(--border)] p-5">
+                <div className="mb-4 h-9 w-9 rounded-lg border border-[color:var(--primary)]" />
+                <h2 className="text-lg font-semibold text-[color:var(--text)]">{title}</h2>
+                <p className="mt-3 text-sm leading-6 text-[color:var(--text-muted)]">{description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <ComparisonTable rows={page.comparisonRows} />
+      <ChecklistSection title={page.checklistTitle} items={page.checklist} />
+      <LinkGroups groups={page.linkGroups} />
+
+      <RelatedLinks
+        eyebrow="Related resources"
+        title="Continue through the Asystence knowledge system."
+        links={relatedLinks}
+      >
+        Every resource links back into the product, category, and authority pages that support the same buyer intent.
+      </RelatedLinks>
+      <FAQSection items={page.faq} />
+      <Signup />
+      <Contact />
+    </main>
+  )
+}
+
+function MarketingPage({ page }) {
+  const relatedPages = getRelatedPages(page)
+
+  return (
+    <main className="pt-20">
+      <section className="border-t border-[color:var(--border)] py-20 sm:py-24">
+        <div className="mx-auto grid w-full max-w-[1760px] gap-10 px-6 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(420px,0.72fr)] lg:items-center lg:px-14 xl:px-16">
+          <div>
+            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">{page.eyebrow}</p>
+            <h1 className="max-w-4xl text-[42px] font-semibold leading-[1.04] tracking-tight text-[color:var(--text)] sm:text-[56px] lg:text-[64px]">
+              {page.title}
+            </h1>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-[color:var(--text-muted)]">{page.intro}</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <a href={SIGNUP_URL} className="inline-flex min-h-[52px] items-center justify-center rounded-lg bg-[var(--primary)] px-6 text-base font-semibold text-[color:var(--primary-contrast)] transition-colors hover:bg-[var(--primary-hover)]">
+                Start free
+              </a>
+              <a href="/#features" className="inline-flex min-h-[52px] items-center justify-center rounded-lg border border-[color:var(--border)] px-6 text-base font-semibold text-[color:var(--text)] transition-colors hover:bg-[var(--surface-soft)]">
+                View platform
+              </a>
+            </div>
+          </div>
+          <div className="rounded-xl border border-[color:var(--border)] p-5">
+            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">Platform fit</p>
+            <div className="mt-5 space-y-3">
+              {page.highlights.map(([title, description]) => (
+                <div key={title} className="rounded-lg border border-[color:var(--border)] p-4">
+                  <h2 className="text-base font-semibold text-[color:var(--text)]">{title}</h2>
+                  <p className="mt-2 text-sm leading-6 text-[color:var(--text-muted)]">{description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-t border-[color:var(--border)] py-24">
+        <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+          <SectionHeader eyebrow="Product depth" title={`${page.navLabel} in Asystence.`}>
+            Asystence keeps the work, the conversation, and the operating context connected so teams can move from planning to follow-through with less context loss.
+          </SectionHeader>
+          <div className="grid gap-4 md:grid-cols-3">
+            {page.sections.map(([title, description]) => (
+              <div key={title} className="rounded-lg border border-[color:var(--border)] p-5">
+                <div className="mb-4 h-9 w-9 rounded-lg border border-[color:var(--primary)]" />
+                <h2 className="text-lg font-semibold text-[color:var(--text)]">{title}</h2>
+                <p className="mt-3 text-sm leading-6 text-[color:var(--text-muted)]">{description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {page.decisionPoints?.length ? (
+        <section className="border-t border-[color:var(--border)] py-24">
+          <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+            <SectionHeader eyebrow="Buyer intent" title={page.decisionTitle || 'What teams evaluate before choosing a platform.'}>
+              Practical criteria for teams comparing work management, collaboration, communication, and operations software.
+            </SectionHeader>
+            <div className="grid gap-4 md:grid-cols-3">
+              {page.decisionPoints.map(([title, description]) => (
+                <div key={title} className="rounded-lg border border-[color:var(--border)] p-5">
+                  <h2 className="text-lg font-semibold text-[color:var(--text)]">{title}</h2>
+                  <p className="mt-3 text-sm leading-6 text-[color:var(--text-muted)]">{description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      <section className="border-t border-[color:var(--border)] py-24">
+        <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+          <SectionHeader eyebrow="Best fit" title="Where it fits best.">
+            A strong fit for teams that want the work, the conversation, and the operating rhythm to stay in one workspace.
+          </SectionHeader>
+          <div className="grid gap-4 lg:grid-cols-3">
+            {page.useCases.map((useCase) => (
+              <div key={useCase} className="rounded-lg border border-[color:var(--border)] p-5">
+                <p className="text-sm leading-6 text-[color:var(--text-muted)]">{useCase}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <RelatedLinks
+        eyebrow="Related capabilities"
+        title="Explore connected Asystence capabilities."
+        links={relatedPages}
+      >
+        Work management, communication, AI, and workspace operations are strongest when they stay connected.
+      </RelatedLinks>
+      <FAQSection items={page.faq} />
+      <Signup />
+      <Contact />
+    </main>
+  )
+}
+
 function LegalPage({ page }) {
   return (
     <main className="pt-20">
@@ -441,6 +792,12 @@ function Footer() {
         <Brand compact />
         <div className="flex flex-wrap gap-5 text-sm text-[color:var(--text-muted)]">
           <a href="/#features" className="hover:text-[color:var(--text)]">Features</a>
+          {MARKETING_PAGE_LIST.map((page) => (
+            <a key={page.path} href={page.path} className="hover:text-[color:var(--text)]">{page.navLabel}</a>
+          ))}
+          {FOOTER_CONTENT_LINKS.map((link) => (
+            <a key={link.href} href={link.href} className="hover:text-[color:var(--text)]">{link.label}</a>
+          ))}
           <a href="/#pricing" className="hover:text-[color:var(--text)]">Pricing</a>
           <a href="/#downloads" className="hover:text-[color:var(--text)]">Downloads</a>
           <a href={APP_URL} className="hover:text-[color:var(--text)]">Sign in</a>
@@ -459,22 +816,79 @@ export default function App() {
     ? '/'
     : (window.location.pathname.replace(/\/+$/, '') || '/')
   const policyPage = POLICY_PAGES[normalizedPath]
+  const marketingPage = getMarketingPage(normalizedPath)
+  const contentPage = getContentPage(normalizedPath)
 
   useEffect(() => {
-    setPageTitle(policyPage?.title)
-  }, [policyPage])
+    if (marketingPage) {
+      applySeo({
+        title: marketingPage.seo.title,
+        description: marketingPage.seo.description,
+        path: marketingPage.path,
+        jsonLd: buildMarketingPageJsonLd(marketingPage),
+      })
+      return
+    }
+
+    if (contentPage) {
+      applySeo({
+        title: contentPage.seo.title,
+        description: contentPage.seo.description,
+        path: contentPage.path,
+        type: contentPage.schemaType === 'Article' || contentPage.schemaType === 'TechArticle' ? 'article' : 'website',
+        jsonLd: buildContentPageJsonLd(contentPage),
+      })
+      return
+    }
+
+    if (policyPage) {
+      applySeo({
+        title: `${policyPage.title} | Asystence`,
+        description: policyPage.intro,
+        path: normalizedPath,
+        jsonLd: buildPolicyJsonLd(normalizedPath, policyPage),
+      })
+      return
+    }
+
+    applySeo({
+      title: HOME_SEO.title,
+      description: HOME_SEO.description,
+      path: HOME_SEO.path,
+      jsonLd: buildHomeJsonLd(),
+    })
+  }, [contentPage, marketingPage, normalizedPath, policyPage])
 
   return (
     <>
       <Navbar />
-      {policyPage ? (
+      {marketingPage ? (
+        <MarketingPage page={marketingPage} />
+      ) : contentPage ? (
+        <ContentPage page={contentPage} />
+      ) : policyPage ? (
         <LegalPage page={policyPage} />
       ) : (
         <>
           <Hero />
           <Features />
+          <RelatedLinks
+            eyebrow="Explore the platform"
+            title="Explore Asystence by the way your team works."
+            links={HOME_RELATED_LINKS}
+          >
+            Focused paths for teams evaluating AI work management, task management, team communication, and workspace collaboration software.
+          </RelatedLinks>
+          <RelatedLinks
+            eyebrow="Knowledge center"
+            title="Build authority with guides, docs, comparisons, and company resources."
+            links={CONTENT_HOME_LINKS}
+          >
+            A reusable resource system for teams researching work operating systems, collaboration workflows, internal operations, and product evaluation.
+          </RelatedLinks>
           <Workflow />
           <Pricing />
+          <FAQSection items={HOME_FAQS} />
           <Downloads />
           <Signup />
           <Contact />
