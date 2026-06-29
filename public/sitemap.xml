@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://asystence.com/</loc></url>
-  <url><loc>https://asystence.com/features</loc></url>
   <url><loc>https://asystence.com/features/work-management</loc></url>
   <url><loc>https://asystence.com/features/task-management</loc></url>
   <url><loc>https://asystence.com/features/team-communication</loc></url>
+  <url><loc>https://asystence.com/features/ai-work-assistant</loc></url>
+  <url><loc>https://asystence.com/features/workspaces</loc></url>
   <url><loc>https://asystence.com/features/project-management-with-chat</loc></url>
   <url><loc>https://asystence.com/features/team-collaboration-software</loc></url>
   <url><loc>https://asystence.com/features/operations-work-management</loc></url>
-  <url><loc>https://asystence.com/features/ai-work-assistant</loc></url>
-  <url><loc>https://asystence.com/features/workspaces</loc></url>
   <url><loc>https://asystence.com/solutions/operations</loc></url>
   <url><loc>https://asystence.com/solutions/remote-teams</loc></url>
   <url><loc>https://asystence.com/resources</loc></url>
@@ -18,6 +17,7 @@
   <url><loc>https://asystence.com/academy</loc></url>
   <url><loc>https://asystence.com/templates</loc></url>
   <url><loc>https://asystence.com/compare</loc></url>
+  <url><loc>https://asystence.com/features</loc></url>
   <url><loc>https://asystence.com/guides/getting-started-with-work-os</loc></url>
   <url><loc>https://asystence.com/guides/task-management-best-practices</loc></url>
   <url><loc>https://asystence.com/guides/project-management-with-team-chat</loc></url>
@@ -46,8 +46,6 @@
   <url><loc>https://asystence.com/brand-assets</loc></url>
   <url><loc>https://asystence.com/product-facts</loc></url>
   <url><loc>https://asystence.com/product-screenshots</loc></url>
-  <url><loc>https://asystence.com/release-notes</loc></url>
-  <url><loc>https://asystence.com/changelog</loc></url>
   <url><loc>https://asystence.com/integrations</loc></url>
   <url><loc>https://asystence.com/api-overview</loc></url>
   <url><loc>https://asystence.com/external-seo-kit</loc></url>
@@ -55,4 +53,8 @@
   <url><loc>https://asystence.com/privacy</loc></url>
   <url><loc>https://asystence.com/refund-policy</loc></url>
   <url><loc>https://asystence.com/cancellation-policy</loc></url>
+  <url><loc>https://asystence.com/release-notes</loc><lastmod>2026-06-29</lastmod></url>
+  <url><loc>https://asystence.com/changelog</loc><lastmod>2026-06-29</lastmod></url>
+  <url><loc>https://asystence.com/roadmap</loc><lastmod>2026-06-29</lastmod></url>
+  <url><loc>https://asystence.com/release-notes/asystence-public-launch</loc><lastmod>2026-06-29</lastmod></url>
 </urlset>

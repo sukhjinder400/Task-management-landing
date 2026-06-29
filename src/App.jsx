@@ -1,5 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import {
+  Activity,
+  ArrowRight,
+  BrainCircuit,
+  CheckSquare2,
+  FolderKanban,
+  Gauge,
+  LayoutDashboard,
+  Layers3,
+  Menu,
+  MessageSquareText,
+  ShieldCheck,
+  Sparkles,
+  Users,
+  X,
+} from 'lucide-react'
+import {
   CONTENT_HOME_LINKS,
   FOOTER_CONTENT_LINKS,
   buildContentPageJsonLd,
@@ -17,6 +33,9 @@ import {
   getMarketingPage,
   getRelatedPages,
 } from './marketingPages.js'
+import { BRAND, DEMO_WORKSPACE } from './designSystem.js'
+import { ReleaseCenterPage } from './ReleaseCenter.jsx'
+import { buildReleaseJsonLd, getReleaseRoute, getReleaseSeo } from './releaseData.js'
 import { applySeo } from './seo.js'
 
 const APP_URL = 'https://app.asystence.com'
@@ -30,26 +49,27 @@ const NAV_LINKS = [
   { label: 'Resources', href: '/resources' },
   { label: 'Guides', href: '/guides' },
   { label: 'Compare', href: '/compare' },
+  { label: 'Releases', href: '/release-notes' },
   { label: 'Company', href: '/company' },
   { label: 'Pricing', href: '/#pricing' },
 ]
 
 const FEATURES = [
-  ['AI work management', 'Tasks, projects, team communication, workspace signals, and AI-assisted context work together in one operating surface.'],
-  ['Task management', 'Plan assignments, subtasks, owners, workflows, blockers, and project execution without separating work from context.'],
-  ['Project management with chat', 'Keep project boards, task ownership, channels, direct messages, mentions, and huddles in one workspace.'],
-  ['Team communication', 'Channels, direct messages, mentions, huddles, and updates stay close to the work they belong to.'],
-  ['Team collaboration software', 'Coordinate tasks, conversations, knowledge, handoffs, and shared workspace context across internal teams.'],
-  ['Operations work management', 'Connect recurring work, admin visibility, reporting, attendance, reviews, OKRs, and AI-assisted signals.'],
-  ['Workspace management', 'Create team spaces for projects, people, communication, knowledge, reporting, and operational visibility.'],
-  ['AI work assistant', 'Summaries, workspace health, coaching nudges, risk signals, and operational context help teams follow through.'],
+  [BrainCircuit, 'AI work management', 'Tasks, projects, team communication, workspace signals, and AI-assisted context work together in one operating surface.'],
+  [CheckSquare2, 'Task management', 'Plan assignments, subtasks, owners, workflows, blockers, and project execution without separating work from context.'],
+  [FolderKanban, 'Project management with chat', 'Keep project boards, task ownership, channels, direct messages, mentions, and huddles in one workspace.'],
+  [MessageSquareText, 'Team communication', 'Channels, direct messages, mentions, huddles, and updates stay close to the work they belong to.'],
+  [Users, 'Team collaboration software', 'Coordinate tasks, conversations, knowledge, handoffs, and shared workspace context across internal teams.'],
+  [Activity, 'Operations work management', 'Connect recurring work, admin visibility, reporting, attendance, reviews, OKRs, and AI-assisted signals.'],
+  [Layers3, 'Workspace management', 'Create team spaces for projects, people, communication, knowledge, reporting, and operational visibility.'],
+  [Sparkles, 'AI work assistant', 'Summaries, workspace health, coaching nudges, risk signals, and operational context help teams follow through.'],
 ]
 
 const PRODUCT_SIGNALS = [
-  ['Work OS', 'Tasks, chat, workspace operations, and AI context'],
+  ['Platform', 'One connected operating surface'],
   ['Projects', 'Boards, workflows, ownership, and blockers'],
   ['Teams', 'Channels, direct messages, mentions, and huddles'],
-  ['Insights', 'Summaries, health signals, reviews, and OKRs'],
+  ['Intelligence', 'AI, attendance, availability, reviews, and OKRs'],
 ]
 
 const WORKFLOW = [
@@ -160,10 +180,10 @@ function Mark({ size = 44 }) {
 function Brand({ compact = false }) {
   return (
     <a href="/" className="flex items-center gap-2">
-      <Mark size={compact ? 44 : 62} />
+      <Mark size={compact ? 38 : 56} />
       <div>
-        <div className={`${compact ? 'text-[22px]' : 'text-[36px]'} font-semibold tracking-tight leading-none text-[color:var(--text)]`}>Asystence</div>
-        <div className={`${compact ? 'mt-1 text-[8px]' : 'mt-1.5 text-[10px]'} uppercase tracking-[0.18em] font-semibold text-[color:var(--text-soft)]`}>System Intelligence</div>
+        <div className={`${compact ? 'text-[18px]' : 'text-[32px]'} font-semibold leading-none text-[color:var(--text)]`}>{BRAND.name}</div>
+        <div className={`${compact ? 'mt-1 text-[7px]' : 'mt-1.5 text-[9px]'} uppercase font-semibold text-[color:var(--text-soft)]`}>{BRAND.descriptor}</div>
       </div>
     </a>
   )
@@ -172,35 +192,37 @@ function Brand({ compact = false }) {
 function Navbar() {
   const [open, setOpen] = useState(false)
   return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-[color:var(--border)] bg-[var(--app-bg)]">
-      <div className="mx-auto flex h-20 w-full max-w-[1760px] items-center justify-between px-6 sm:px-10 lg:px-14 xl:px-16">
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-[color:var(--border)] bg-[color:var(--app-bg)]/95 backdrop-blur">
+      <div className="site-container flex h-[var(--site-nav-h)] items-center justify-between">
         <Brand compact />
-        <nav className="hidden items-center gap-7 md:flex">
+        <nav className="hidden items-center gap-5 lg:flex" aria-label="Primary navigation">
           {NAV_LINKS.map((link) => (
-            <a key={link.href} href={link.href} className="text-sm font-medium text-[color:var(--text-muted)] transition-colors hover:text-[color:var(--text)]">
+            <a key={link.href} href={link.href} className="text-xs font-semibold text-[color:var(--text-muted)] transition-colors hover:text-[color:var(--text)]">
               {link.label}
             </a>
           ))}
         </nav>
-        <div className="hidden items-center gap-3 md:flex">
-          <a href={APP_URL} className="text-sm font-medium text-[color:var(--text-muted)] transition-colors hover:text-[color:var(--text)]">Sign in</a>
-          <a href={SIGNUP_URL} className="rounded-lg bg-[var(--primary)] px-4 py-2 text-sm font-semibold text-[color:var(--primary-contrast)] transition-colors hover:bg-[var(--primary-hover)]">Get started</a>
+        <div className="hidden items-center gap-2 lg:flex">
+          <a href={APP_URL} className="site-button site-button-ghost">Sign in</a>
+          <a href={SIGNUP_URL} className="site-button site-button-primary">Get started</a>
         </div>
-        <button className="md:hidden text-[color:var(--text)]" onClick={() => setOpen((value) => !value)} aria-label="Toggle navigation">
-          {open ? 'Close' : 'Menu'}
+        <button
+          className="site-button site-button-ghost h-10 w-10 px-0 lg:hidden"
+          onClick={() => setOpen((value) => !value)}
+          aria-expanded={open}
+          aria-label={open ? 'Close navigation' : 'Open navigation'}
+        >
+          {open ? <X aria-hidden="true" size={19} /> : <Menu aria-hidden="true" size={19} />}
         </button>
       </div>
       {open && (
-        <div className="border-t border-[color:var(--border)] px-5 py-4 md:hidden">
-          <div className="flex flex-col gap-3">
+        <div className="border-t border-[color:var(--border)] bg-[var(--surface-soft)] lg:hidden">
+          <div className="site-container flex flex-col gap-1 py-4">
             {NAV_LINKS.map((link) => (
-              <a key={link.href} href={link.href} onClick={() => setOpen(false)} className="text-sm text-[color:var(--text-muted)]">{link.label}</a>
+              <a key={link.href} href={link.href} onClick={() => setOpen(false)} className="site-button site-button-ghost justify-start">{link.label}</a>
             ))}
-            <a href={APP_URL} className="text-sm text-[color:var(--text-muted)]">Sign in</a>
-            <a href={SIGNUP_URL} onClick={() => setOpen(false)} className="rounded-lg bg-[var(--primary)] px-4 py-2 text-center text-sm font-semibold text-[color:var(--primary-contrast)]">Get started</a>
-            {POLICY_LINKS.map((link) => (
-              <a key={link.href} href={link.href} onClick={() => setOpen(false)} className="text-sm text-[color:var(--text-muted)]">{link.label}</a>
-            ))}
+            <a href={APP_URL} className="site-button site-button-ghost justify-start">Sign in</a>
+            <a href={SIGNUP_URL} onClick={() => setOpen(false)} className="site-button site-button-primary mt-2">Get started</a>
           </div>
         </div>
       )}
@@ -208,32 +230,101 @@ function Navbar() {
   )
 }
 
-function ProductPreview() {
-  const rows = ['Workspace Health', 'My Tasks', 'Admin Access', 'Projects']
+function ProductPreview({ compact = false }) {
+  const sidebarItems = [
+    [LayoutDashboard, 'Overview'],
+    [FolderKanban, 'Projects'],
+    [CheckSquare2, 'Tasks'],
+    [MessageSquareText, 'Communication'],
+    [BrainCircuit, 'Intelligence'],
+  ]
+
   return (
-    <div className="border border-[color:var(--border)] rounded-xl p-5">
-      <div className="mb-5 flex items-center justify-between">
-        <div>
-          <p className="text-xs font-semibold text-[color:var(--text)]">Workspace pulse</p>
-          <p className="mt-1 text-xs text-[color:var(--text-muted)]">Live organizational health</p>
-        </div>
-        <span className="rounded-full border border-[color:var(--primary)] px-2 py-1 text-xs font-semibold text-[color:var(--primary)]">AI</span>
-      </div>
-      <div className="mb-5 h-2 rounded-full bg-[var(--surface-soft)]">
-        <div className="h-2 w-3/5 rounded-full bg-[var(--primary)]" />
-      </div>
-      <div className="grid grid-cols-2 gap-3">
-        {rows.map((row, index) => (
-          <div key={row} className="rounded-lg border border-[color:var(--border)] p-4">
-            <p className="text-xs font-semibold text-[color:var(--text)]">{row}</p>
-            <p className="mt-3 text-2xl font-semibold text-[color:var(--primary)]">{index + 1}</p>
-            <p className="mt-1 text-xs text-[color:var(--text-muted)]">Operational signal</p>
+    <div className="product-window site-reveal" aria-label="Asystence product preview using fictional demonstration data">
+      <div className="product-window-topbar">
+        <div className="flex min-w-0 items-center gap-2">
+          <Mark size={26} />
+          <div className="min-w-0">
+            <p className="truncate text-xs font-semibold text-[color:var(--text)]">{DEMO_WORKSPACE.label}</p>
+            <p className="truncate text-[10px] text-[color:var(--text-soft)]">{DEMO_WORKSPACE.notice}</p>
           </div>
-        ))}
+        </div>
+        <span className="site-badge shrink-0">Demo data</span>
       </div>
-      <div className="mt-3 rounded-lg border border-[color:var(--border)] p-4">
-        <p className="text-xs font-semibold text-[color:var(--text)]">Executive intelligence</p>
-        <p className="mt-2 text-sm leading-6 text-[color:var(--text-muted)]">Risk, performance, attendance, and project execution signals summarized in one place.</p>
+      <div className="product-window-body">
+        <aside className="product-sidebar" aria-label="Product preview navigation">
+          {sidebarItems.map(([Icon, label], index) => (
+            <span
+              key={label}
+              className={`product-sidebar-item ${index === 0 ? 'product-sidebar-item-active' : ''}`}
+              title={label}
+              role="img"
+              aria-label={label}
+            >
+              <Icon aria-hidden="true" size={17} strokeWidth={1.75} />
+            </span>
+          ))}
+        </aside>
+        <div className="product-main">
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="text-sm font-semibold text-[color:var(--text)]">Workspace overview</p>
+              <p className="mt-1 text-[10px] text-[color:var(--text-soft)]">Projects, people, and operational signals</p>
+            </div>
+            <span className="inline-flex items-center gap-2 text-[10px] font-semibold text-[color:var(--primary)]">
+              <Activity aria-hidden="true" size={13} />
+              Operational pulse
+            </span>
+          </div>
+
+          <div className="mt-4 grid gap-2 sm:grid-cols-3">
+            {DEMO_WORKSPACE.metrics.map((metric) => (
+              <div key={metric.label} className="product-metric">
+                <p className="text-[10px] text-[color:var(--text-muted)]">{metric.label}</p>
+                <p className="mt-2 text-xl font-semibold text-[color:var(--text)]">{metric.value}</p>
+                {!compact && <p className="mt-1 text-[9px] leading-4 text-[color:var(--text-soft)]">{metric.detail}</p>}
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-3 grid gap-3 xl:grid-cols-[minmax(0,1.35fr)_minmax(190px,0.65fr)]">
+            <div className="site-card p-4">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-xs font-semibold text-[color:var(--text)]">Project execution</p>
+                <a href="/features/task-management" className="text-[10px] font-semibold text-[color:var(--primary)]">View tasks</a>
+              </div>
+              <div className="mt-4 space-y-4">
+                {DEMO_WORKSPACE.projects.map((project) => (
+                  <div key={project.name}>
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="truncate text-[10px] font-semibold text-[color:var(--text)]">{project.name}</p>
+                        <p className="mt-1 text-[9px] text-[color:var(--text-soft)]">{project.status}</p>
+                      </div>
+                      <span className="text-[10px] font-semibold text-[color:var(--text-muted)]">{project.progress}%</span>
+                    </div>
+                    <div className="product-progress mt-2">
+                      <span style={{ width: `${project.progress}%` }} />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="site-card p-4">
+              <div className="flex items-center gap-2 text-[color:var(--primary)]">
+                <BrainCircuit aria-hidden="true" size={16} />
+                <p className="text-[10px] font-semibold">Workspace intelligence</p>
+              </div>
+              <p className="mt-4 text-[10px] leading-5 text-[color:var(--text-muted)]">
+                Demo projects are moving. One review is waiting for an owner response, and today&apos;s availability is visible to the team.
+              </p>
+              <div className="mt-4 flex items-center gap-2 border-t border-[color:var(--border)] pt-3 text-[9px] text-[color:var(--text-soft)]">
+                <ShieldCheck aria-hidden="true" size={13} />
+                Fictional, privacy-safe preview
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )
@@ -241,32 +332,33 @@ function ProductPreview() {
 
 function Hero() {
   return (
-    <section className="min-h-screen pt-20">
-      <div className="mx-auto grid min-h-[calc(100vh-5rem)] w-full max-w-[1760px] items-center gap-12 px-6 py-12 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(520px,0.92fr)] lg:gap-16 lg:px-14 xl:px-16 2xl:gap-20">
-        <div>
-          <div className="mb-9">
+    <section className="pt-[var(--site-nav-h)]">
+      <div className="site-container grid min-h-[calc(100vh-var(--site-nav-h))] items-center gap-12 py-10 sm:py-12 lg:grid-cols-[minmax(0,0.92fr)_minmax(540px,1.08fr)] lg:gap-16 2xl:gap-20">
+        <div className="site-reveal">
+          <div className="mb-9 hidden sm:block">
             <Brand />
           </div>
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">AI workspace operating system</p>
-          <h1 className="text-[42px] font-semibold leading-[1.04] tracking-tight text-[color:var(--text)] sm:text-[56px] lg:text-[68px]">
-            AI work management software and work OS for teams.
+          <p className="site-eyebrow mb-4">{BRAND.positioning}</p>
+          <h1 className="text-[34px] font-semibold leading-[1.08] text-[color:var(--text)] sm:text-[54px] sm:leading-[1.06] lg:text-[64px]">
+            Intelligent workspace platform for projects, communication, and operations.
           </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-8 text-[color:var(--text-muted)]">
-            Asystence brings task management, team communication, project execution, workspace collaboration, attendance, reviews, and AI-assisted operational context into a single work OS.
+          <p className="mt-5 max-w-2xl text-[15px] leading-7 text-[color:var(--text-muted)] sm:mt-6 sm:text-lg sm:leading-8">
+            Asystence connects projects, tasks, team communication, AI assistance, workspace intelligence, attendance, availability, and operational intelligence in one focused platform.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <a href={SIGNUP_URL} className="inline-flex min-h-[52px] items-center justify-center rounded-lg bg-[var(--primary)] px-6 text-base font-semibold text-[color:var(--primary-contrast)] transition-colors hover:bg-[var(--primary-hover)]">
+            <a href={SIGNUP_URL} className="site-button site-button-primary min-h-[44px] px-5">
               Start free
+              <ArrowRight aria-hidden="true" size={16} />
             </a>
-            <a href="/features/work-management" className="inline-flex min-h-[52px] items-center justify-center rounded-lg border border-[color:var(--border)] px-6 text-base font-semibold text-[color:var(--text)] transition-colors hover:bg-[var(--surface-soft)]">
-              Explore work OS
+            <a href="/features/work-management" className="site-button site-button-secondary min-h-[44px] px-5">
+              Explore the platform
             </a>
           </div>
           <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-4">
             {PRODUCT_SIGNALS.map(([value, label]) => (
-              <div key={label} className="border border-[color:var(--border)] rounded-lg p-4">
-                <p className="text-2xl font-semibold text-[color:var(--text)]">{value}</p>
-                <p className="mt-1 text-xs text-[color:var(--text-muted)]">{label}</p>
+              <div key={label} className="site-card p-3">
+                <p className="text-sm font-semibold text-[color:var(--text)]">{value}</p>
+                <p className="mt-2 text-[10px] leading-4 text-[color:var(--text-muted)]">{label}</p>
               </div>
             ))}
           </div>
@@ -280,8 +372,8 @@ function Hero() {
 function SectionHeader({ eyebrow, title, children }) {
   return (
     <div className="mb-10 max-w-3xl">
-      <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">{eyebrow}</p>
-      <h2 className="text-[34px] font-semibold leading-tight tracking-tight text-[color:var(--text)] sm:text-[44px]">{title}</h2>
+      <p className="site-eyebrow mb-3">{eyebrow}</p>
+      <h2 className="text-[34px] font-semibold leading-tight text-[color:var(--text)] sm:text-[44px]">{title}</h2>
       {children && <p className="mt-4 text-base leading-7 text-[color:var(--text-muted)]">{children}</p>}
     </div>
   )
@@ -303,13 +395,13 @@ function RelatedLinks({ eyebrow = 'Explore Asystence', title = 'Go deeper into t
 
   return (
     <section className="border-t border-[color:var(--border)] py-24">
-      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+      <div className="site-container">
         <SectionHeader eyebrow={eyebrow} title={title}>
           {children}
         </SectionHeader>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {links.map((link) => (
-            <a key={link.href || link.path} href={link.href || link.path} className="rounded-lg border border-[color:var(--border)] p-5 transition-colors hover:bg-[var(--surface-soft)]">
+            <a key={link.href || link.path} href={link.href || link.path} className="site-card site-card-interactive">
               <h3 className="text-lg font-semibold text-[color:var(--text)]">{link.label || link.navLabel}</h3>
               <p className="mt-3 text-sm leading-6 text-[color:var(--text-muted)]">{link.description || link.intro}</p>
             </a>
@@ -325,13 +417,13 @@ function FAQSection({ items }) {
 
   return (
     <section className="border-t border-[color:var(--border)] py-24">
-      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+      <div className="site-container">
         <SectionHeader eyebrow="FAQ" title="Clear answers for teams evaluating Asystence.">
           Practical context for teams comparing AI work management, team communication, and workspace platforms.
         </SectionHeader>
         <div className="grid gap-4 lg:grid-cols-3">
           {items.map((item) => (
-            <div key={item.question} className="rounded-lg border border-[color:var(--border)] p-5">
+            <div key={item.question} className="site-card">
               <h3 className="text-lg font-semibold text-[color:var(--text)]">{item.question}</h3>
               <p className="mt-3 text-sm leading-6 text-[color:var(--text-muted)]">{item.answer}</p>
             </div>
@@ -345,14 +437,16 @@ function FAQSection({ items }) {
 function Features() {
   return (
     <section id="features" className="border-t border-[color:var(--border)] py-24">
-      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
-        <SectionHeader eyebrow="Everything included" title="A unified work OS for execution, communication, and team intelligence.">
+      <div className="site-container">
+        <SectionHeader eyebrow="Everything included" title="One intelligent workspace for execution, communication, and operational clarity.">
           Projects, chat, attendance, intelligence, reviews, knowledge, and automation all share the same workspace context.
         </SectionHeader>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {FEATURES.map(([title, description]) => (
-            <a key={title} href={featureHref(title)} className="rounded-lg border border-[color:var(--border)] p-5 transition-colors hover:bg-[var(--surface-soft)]">
-              <div className="mb-4 h-9 w-9 rounded-lg border border-[color:var(--primary)]" />
+          {FEATURES.map(([Icon, title, description]) => (
+            <a key={title} href={featureHref(title)} className="site-card site-card-interactive">
+              <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-lg border border-[color:var(--primary)] bg-[var(--primary-soft)] text-[color:var(--primary)]">
+                <Icon aria-hidden="true" size={17} strokeWidth={1.75} />
+              </div>
               <h3 className="text-lg font-semibold text-[color:var(--text)]">{title}</h3>
               <p className="mt-3 text-sm leading-6 text-[color:var(--text-muted)]">{description}</p>
             </a>
@@ -366,13 +460,13 @@ function Features() {
 function Workflow() {
   return (
     <section id="workflow" className="border-t border-[color:var(--border)] py-24">
-      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+      <div className="site-container">
         <SectionHeader eyebrow="Workflow" title="From workspace setup to AI-guided execution.">
           Teams can start simple and grow into a complete operational system without switching tools.
         </SectionHeader>
         <div className="grid gap-4 lg:grid-cols-4">
           {WORKFLOW.map(([title, description], index) => (
-            <div key={title} className="rounded-lg border border-[color:var(--border)] p-5">
+            <div key={title} className="site-card">
               <p className="text-xs font-semibold text-[color:var(--primary)]">0{index + 1}</p>
               <h3 className="mt-5 text-lg font-semibold text-[color:var(--text)]">{title}</h3>
               <p className="mt-3 text-sm leading-6 text-[color:var(--text-muted)]">{description}</p>
@@ -387,13 +481,13 @@ function Workflow() {
 function Pricing() {
   return (
     <section id="pricing" className="border-t border-[color:var(--border)] py-24">
-      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+      <div className="site-container">
         <SectionHeader eyebrow="Pricing" title="Simple plans for teams at every stage.">
           Start free, then scale into AI intelligence, reviews, OKRs, and automation when your workspace needs it.
         </SectionHeader>
         <div className="grid gap-4 lg:grid-cols-3">
           {PLANS.map((plan) => (
-            <div key={plan.name} className={`rounded-lg border p-6 ${plan.highlight ? 'border-[color:var(--primary)]' : 'border-[color:var(--border)]'}`}>
+            <div key={plan.name} className={`site-card p-6 ${plan.highlight ? 'border-[color:var(--primary)]' : ''}`}>
               {plan.highlight && <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">Most popular</p>}
               <h3 className="text-xl font-semibold text-[color:var(--text)]">{plan.name}</h3>
               <p className="mt-5 text-4xl font-semibold text-[color:var(--text)]">{plan.price}</p>
@@ -403,7 +497,7 @@ function Pricing() {
                   <li key={feature} className="text-sm text-[color:var(--text-muted)]">- {feature}</li>
                 ))}
               </ul>
-              <a href={plan.href} className={`mt-8 inline-flex min-h-[48px] w-full items-center justify-center rounded-lg text-sm font-semibold transition-colors ${plan.highlight ? 'bg-[var(--primary)] text-[color:var(--primary-contrast)] hover:bg-[var(--primary-hover)]' : 'border border-[color:var(--border)] text-[color:var(--text)] hover:bg-[var(--surface-soft)]'}`}>
+              <a href={plan.href} className={`site-button mt-8 w-full ${plan.highlight ? 'site-button-primary' : 'site-button-secondary'}`}>
                 {plan.cta}
               </a>
             </div>
@@ -422,16 +516,16 @@ function Downloads() {
   ]
   return (
     <section id="downloads" className="border-t border-[color:var(--border)] py-24">
-      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+      <div className="site-container">
         <SectionHeader eyebrow="Downloads" title="Use Asystence on web, desktop, and mobile.">
           Your workspace stays available wherever your team works.
         </SectionHeader>
         <div className="grid gap-4 md:grid-cols-3">
           {downloads.map(([title, description, href]) => (
-            <div key={title} className="rounded-lg border border-[color:var(--border)] p-5">
+            <div key={title} className="site-card">
               <h3 className="text-lg font-semibold text-[color:var(--text)]">{title}</h3>
               <p className="mt-3 text-sm text-[color:var(--text-muted)]">{description}</p>
-              <a href={href} className="mt-6 inline-flex min-h-[48px] w-full items-center justify-center rounded-lg border border-[color:var(--border)] text-sm font-semibold text-[color:var(--text)] hover:bg-[var(--surface-soft)]">Download</a>
+              <a href={href} className="site-button site-button-secondary mt-6 w-full">Download</a>
             </div>
           ))}
         </div>
@@ -446,13 +540,13 @@ function Downloads() {
 function Signup() {
   return (
     <section id="signup" className="border-t border-[color:var(--border)] py-24">
-      <div className="mx-auto grid w-full max-w-[1760px] gap-8 px-6 sm:px-10 lg:grid-cols-[1fr_560px] lg:items-center lg:px-14 xl:px-16">
+      <div className="site-container grid gap-8 lg:grid-cols-[1fr_560px] lg:items-center">
         <SectionHeader eyebrow="Get started" title="Create your workspace in seconds.">
           Name your workspace, create the first admin account, then choose email/password or Google on the app signup screen.
         </SectionHeader>
-        <div className="rounded-lg border border-[color:var(--border)] p-6">
-          <a href={SIGNUP_URL} className="inline-flex min-h-[52px] w-full items-center justify-center rounded-lg bg-[var(--primary)] text-base font-semibold text-[color:var(--primary-contrast)] hover:bg-[var(--primary-hover)]">Create free trial</a>
-          <a href={`${APP_URL}/login`} className="mt-3 inline-flex min-h-[52px] w-full items-center justify-center rounded-lg border border-[color:var(--border)] text-base font-semibold text-[color:var(--text)] hover:bg-[var(--surface-soft)]">Sign in with email</a>
+        <div className="site-card p-6">
+          <a href={SIGNUP_URL} className="site-button site-button-primary min-h-[44px] w-full">Create free trial</a>
+          <a href={`${APP_URL}/login`} className="site-button site-button-secondary mt-3 min-h-[44px] w-full">Sign in with email</a>
           <p className="mt-5 text-xs leading-5 text-[color:var(--text-soft)]">Starts on the Basic plan. Upgrade when your team needs AI intelligence, reviews, and automation.</p>
         </div>
       </div>
@@ -463,14 +557,14 @@ function Signup() {
 function Contact() {
   return (
     <section id="contact" className="border-t border-[color:var(--border)] py-24">
-      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
-        <div className="rounded-xl border border-[color:var(--border)] p-8 sm:p-10">
+      <div className="site-container">
+        <div className="site-card p-8 sm:p-10">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">Contact</p>
           <h2 className="mt-4 text-[34px] font-semibold text-[color:var(--text)]">Need a custom plan?</h2>
           <p className="mt-3 max-w-2xl text-base leading-7 text-[color:var(--text-muted)]">For enterprise pricing, partnerships, or deployment questions, reach out and we will respond within 24 hours.</p>
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            <a href="mailto:hello@asystence.com" className="inline-flex min-h-[52px] items-center justify-center rounded-lg bg-[var(--primary)] px-6 text-base font-semibold text-[color:var(--primary-contrast)] hover:bg-[var(--primary-hover)]">hello@asystence.com</a>
-            <a href={SIGNUP_URL} className="inline-flex min-h-[52px] items-center justify-center rounded-lg border border-[color:var(--border)] px-6 text-base font-semibold text-[color:var(--text)] hover:bg-[var(--surface-soft)]">Start free</a>
+            <a href="mailto:hello@asystence.com" className="site-button site-button-primary min-h-[44px] px-5">hello@asystence.com</a>
+            <a href={SIGNUP_URL} className="site-button site-button-secondary min-h-[44px] px-5">Start free</a>
           </div>
         </div>
       </div>
@@ -479,6 +573,23 @@ function Contact() {
 }
 
 function resolvePageLink(path) {
+  const releaseRoute = getReleaseRoute(path)
+
+  if (releaseRoute) {
+    const releaseSeo = getReleaseSeo(releaseRoute)
+    return {
+      href: releaseSeo.path,
+      label: releaseRoute.type === 'release-detail'
+        ? releaseRoute.release.title
+        : releaseRoute.type === 'changelog'
+          ? 'Changelog'
+          : releaseRoute.type === 'roadmap'
+            ? 'Roadmap'
+            : 'Release notes',
+      description: releaseSeo.description,
+    }
+  }
+
   const marketingPage = getMarketingPage(path)
   const contentPage = getContentPage(path)
   const page = marketingPage || contentPage
@@ -498,18 +609,30 @@ function resolvePageLink(path) {
   }
 }
 
+const SECTION_ICONS = [Layers3, Gauge, BrainCircuit]
+
+function SectionIcon({ index = 0 }) {
+  const Icon = SECTION_ICONS[index % SECTION_ICONS.length]
+
+  return (
+    <div className="mb-4 flex h-9 w-9 items-center justify-center rounded-lg border border-[color:var(--primary)] bg-[var(--primary-soft)] text-[color:var(--primary)]">
+      <Icon aria-hidden="true" size={17} strokeWidth={1.75} />
+    </div>
+  )
+}
+
 function ChecklistSection({ title = 'Checklist', items }) {
   if (!items?.length) return null
 
   return (
     <section className="border-t border-[color:var(--border)] py-24">
-      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+      <div className="site-container">
         <SectionHeader eyebrow="Implementation" title={title}>
           Practical next steps teams can use while evaluating or adopting the Asystence operating model.
         </SectionHeader>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {items.map((item, index) => (
-            <div key={item} className="rounded-lg border border-[color:var(--border)] p-5">
+            <div key={item} className="site-card">
               <p className="text-xs font-semibold text-[color:var(--primary)]">{String(index + 1).padStart(2, '0')}</p>
               <p className="mt-4 text-sm leading-6 text-[color:var(--text-muted)]">{item}</p>
             </div>
@@ -525,19 +648,19 @@ function LinkGroups({ groups }) {
 
   return (
     <section className="border-t border-[color:var(--border)] py-24">
-      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+      <div className="site-container">
         <SectionHeader eyebrow="Information architecture" title="Explore the connected resource system.">
           These crawlable paths connect category education, product-led docs, templates, comparisons, and authority resources.
         </SectionHeader>
         <div className="grid gap-4 lg:grid-cols-3">
           {groups.map((group) => (
-            <div key={group.title} className="rounded-lg border border-[color:var(--border)] p-5">
+            <div key={group.title} className="site-card">
               <h2 className="text-lg font-semibold text-[color:var(--text)]">{group.title}</h2>
               <div className="mt-5 space-y-3">
                 {group.links.map((path) => {
                   const link = resolvePageLink(path)
                   return (
-                    <a key={path} href={link.href} className="block rounded-lg border border-[color:var(--border)] p-4 transition-colors hover:bg-[var(--surface-soft)]">
+                    <a key={path} href={link.href} className="site-card site-card-interactive p-4">
                       <h3 className="text-sm font-semibold text-[color:var(--text)]">{link.label}</h3>
                       <p className="mt-2 text-xs leading-5 text-[color:var(--text-muted)]">{link.description}</p>
                     </a>
@@ -557,12 +680,12 @@ function ComparisonTable({ rows }) {
 
   return (
     <section className="border-t border-[color:var(--border)] py-24">
-      <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+      <div className="site-container">
         <SectionHeader eyebrow="Balanced comparison" title="Compare fit by buyer need.">
           These comparisons are intended to clarify product fit, not to make unsupported claims of superiority.
         </SectionHeader>
-        <div className="overflow-hidden rounded-lg border border-[color:var(--border)]">
-          <table className="w-full border-collapse text-left text-sm">
+        <div className="overflow-x-auto rounded-lg border border-[color:var(--border)]">
+          <table className="w-full min-w-[720px] border-collapse text-left text-sm">
             <thead className="bg-[var(--surface-soft)] text-[color:var(--text)]">
               <tr>
                 <th className="border-b border-[color:var(--border)] p-4 font-semibold">Criteria</th>
@@ -590,29 +713,29 @@ function ContentPage({ page }) {
   const relatedLinks = getContentRelatedPaths(page).map(resolvePageLink)
 
   return (
-    <main className="pt-20">
+    <main className="site-page">
       <section className="border-t border-[color:var(--border)] py-20 sm:py-24">
-        <div className="mx-auto grid w-full max-w-[1760px] gap-10 px-6 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(420px,0.72fr)] lg:items-center lg:px-14 xl:px-16">
+        <div className="site-container grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(420px,0.72fr)] lg:items-center">
           <div>
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">{page.eyebrow}</p>
-            <h1 className="max-w-4xl text-[42px] font-semibold leading-[1.04] tracking-tight text-[color:var(--text)] sm:text-[56px] lg:text-[64px]">
+            <p className="site-eyebrow mb-4">{page.eyebrow}</p>
+            <h1 className="max-w-4xl text-[42px] font-semibold leading-[1.04] text-[color:var(--text)] sm:text-[56px] lg:text-[64px]">
               {page.title}
             </h1>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-[color:var(--text-muted)]">{page.intro}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href={SIGNUP_URL} className="inline-flex min-h-[52px] items-center justify-center rounded-lg bg-[var(--primary)] px-6 text-base font-semibold text-[color:var(--primary-contrast)] transition-colors hover:bg-[var(--primary-hover)]">
+              <a href={SIGNUP_URL} className="site-button site-button-primary min-h-[44px] px-5">
                 Start free
               </a>
-              <a href="/resources" className="inline-flex min-h-[52px] items-center justify-center rounded-lg border border-[color:var(--border)] px-6 text-base font-semibold text-[color:var(--text)] transition-colors hover:bg-[var(--surface-soft)]">
+              <a href="/resources" className="site-button site-button-secondary min-h-[44px] px-5">
                 Browse resources
               </a>
             </div>
           </div>
-          <div className="rounded-xl border border-[color:var(--border)] p-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">What this covers</p>
+          <div className="site-card">
+            <p className="site-eyebrow">What this covers</p>
             <div className="mt-5 space-y-3">
               {page.highlights.map(([title, description]) => (
-                <div key={title} className="rounded-lg border border-[color:var(--border)] p-4">
+                <div key={title} className="rounded-lg border border-[color:var(--border)] bg-[var(--surface-soft)] p-4">
                   <h2 className="text-base font-semibold text-[color:var(--text)]">{title}</h2>
                   <p className="mt-2 text-sm leading-6 text-[color:var(--text-muted)]">{description}</p>
                 </div>
@@ -622,15 +745,26 @@ function ContentPage({ page }) {
         </div>
       </section>
 
+      {page.path === '/product-screenshots' && (
+        <section className="site-section">
+          <div className="site-container">
+            <SectionHeader eyebrow="Demo-safe product view" title="A public preview that reflects the product interface.">
+              The labels, workspace, people counts, project names, and progress values below are fictional demonstration data.
+            </SectionHeader>
+            <ProductPreview />
+          </div>
+        </section>
+      )}
+
       <section className="border-t border-[color:var(--border)] py-24">
-        <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+        <div className="site-container">
           <SectionHeader eyebrow="Resource depth" title={`${page.navLabel} in context.`}>
             A product-led resource for teams evaluating work management, team communication, workspace collaboration, AI assistance, and internal operations.
           </SectionHeader>
           <div className="grid gap-4 md:grid-cols-3">
-            {page.sections.map(([title, description]) => (
-              <div key={title} className="rounded-lg border border-[color:var(--border)] p-5">
-                <div className="mb-4 h-9 w-9 rounded-lg border border-[color:var(--primary)]" />
+            {page.sections.map(([title, description], index) => (
+              <div key={title} className="site-card">
+                <SectionIcon index={index} />
                 <h2 className="text-lg font-semibold text-[color:var(--text)]">{title}</h2>
                 <p className="mt-3 text-sm leading-6 text-[color:var(--text-muted)]">{description}</p>
               </div>
@@ -661,29 +795,29 @@ function MarketingPage({ page }) {
   const relatedPages = getRelatedPages(page)
 
   return (
-    <main className="pt-20">
+    <main className="site-page">
       <section className="border-t border-[color:var(--border)] py-20 sm:py-24">
-        <div className="mx-auto grid w-full max-w-[1760px] gap-10 px-6 sm:px-10 lg:grid-cols-[minmax(0,1fr)_minmax(420px,0.72fr)] lg:items-center lg:px-14 xl:px-16">
+        <div className="site-container grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(420px,0.72fr)] lg:items-center">
           <div>
-            <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">{page.eyebrow}</p>
-            <h1 className="max-w-4xl text-[42px] font-semibold leading-[1.04] tracking-tight text-[color:var(--text)] sm:text-[56px] lg:text-[64px]">
+            <p className="site-eyebrow mb-4">{page.eyebrow}</p>
+            <h1 className="max-w-4xl text-[42px] font-semibold leading-[1.04] text-[color:var(--text)] sm:text-[56px] lg:text-[64px]">
               {page.title}
             </h1>
             <p className="mt-6 max-w-3xl text-lg leading-8 text-[color:var(--text-muted)]">{page.intro}</p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <a href={SIGNUP_URL} className="inline-flex min-h-[52px] items-center justify-center rounded-lg bg-[var(--primary)] px-6 text-base font-semibold text-[color:var(--primary-contrast)] transition-colors hover:bg-[var(--primary-hover)]">
+              <a href={SIGNUP_URL} className="site-button site-button-primary min-h-[44px] px-5">
                 Start free
               </a>
-              <a href="/#features" className="inline-flex min-h-[52px] items-center justify-center rounded-lg border border-[color:var(--border)] px-6 text-base font-semibold text-[color:var(--text)] transition-colors hover:bg-[var(--surface-soft)]">
+              <a href="/#features" className="site-button site-button-secondary min-h-[44px] px-5">
                 View platform
               </a>
             </div>
           </div>
-          <div className="rounded-xl border border-[color:var(--border)] p-5">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">Platform fit</p>
+          <div className="site-card">
+            <p className="site-eyebrow">Platform fit</p>
             <div className="mt-5 space-y-3">
               {page.highlights.map(([title, description]) => (
-                <div key={title} className="rounded-lg border border-[color:var(--border)] p-4">
+                <div key={title} className="rounded-lg border border-[color:var(--border)] bg-[var(--surface-soft)] p-4">
                   <h2 className="text-base font-semibold text-[color:var(--text)]">{title}</h2>
                   <p className="mt-2 text-sm leading-6 text-[color:var(--text-muted)]">{description}</p>
                 </div>
@@ -694,14 +828,14 @@ function MarketingPage({ page }) {
       </section>
 
       <section className="border-t border-[color:var(--border)] py-24">
-        <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+        <div className="site-container">
           <SectionHeader eyebrow="Product depth" title={`${page.navLabel} in Asystence.`}>
-            Asystence keeps the work, the conversation, and the operating context connected so teams can move from planning to follow-through with less context loss.
+            Asystence is an intelligent workspace platform that keeps projects, tasks, communication, people signals, and operating context connected.
           </SectionHeader>
           <div className="grid gap-4 md:grid-cols-3">
-            {page.sections.map(([title, description]) => (
-              <div key={title} className="rounded-lg border border-[color:var(--border)] p-5">
-                <div className="mb-4 h-9 w-9 rounded-lg border border-[color:var(--primary)]" />
+            {page.sections.map(([title, description], index) => (
+              <div key={title} className="site-card">
+                <SectionIcon index={index} />
                 <h2 className="text-lg font-semibold text-[color:var(--text)]">{title}</h2>
                 <p className="mt-3 text-sm leading-6 text-[color:var(--text-muted)]">{description}</p>
               </div>
@@ -712,13 +846,13 @@ function MarketingPage({ page }) {
 
       {page.decisionPoints?.length ? (
         <section className="border-t border-[color:var(--border)] py-24">
-          <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+          <div className="site-container">
             <SectionHeader eyebrow="Buyer intent" title={page.decisionTitle || 'What teams evaluate before choosing a platform.'}>
               Practical criteria for teams comparing work management, collaboration, communication, and operations software.
             </SectionHeader>
             <div className="grid gap-4 md:grid-cols-3">
               {page.decisionPoints.map(([title, description]) => (
-                <div key={title} className="rounded-lg border border-[color:var(--border)] p-5">
+                <div key={title} className="site-card">
                   <h2 className="text-lg font-semibold text-[color:var(--text)]">{title}</h2>
                   <p className="mt-3 text-sm leading-6 text-[color:var(--text-muted)]">{description}</p>
                 </div>
@@ -729,13 +863,13 @@ function MarketingPage({ page }) {
       ) : null}
 
       <section className="border-t border-[color:var(--border)] py-24">
-        <div className="mx-auto w-full max-w-[1760px] px-6 sm:px-10 lg:px-14 xl:px-16">
+        <div className="site-container">
           <SectionHeader eyebrow="Best fit" title="Where it fits best.">
             A strong fit for teams that want the work, the conversation, and the operating rhythm to stay in one workspace.
           </SectionHeader>
           <div className="grid gap-4 lg:grid-cols-3">
             {page.useCases.map((useCase) => (
-              <div key={useCase} className="rounded-lg border border-[color:var(--border)] p-5">
+              <div key={useCase} className="site-card">
                 <p className="text-sm leading-6 text-[color:var(--text-muted)]">{useCase}</p>
               </div>
             ))}
@@ -759,7 +893,7 @@ function MarketingPage({ page }) {
 
 function LegalPage({ page }) {
   return (
-    <main className="pt-20">
+    <main className="site-page">
       <section className="border-t border-[color:var(--border)] py-20">
         <div className="mx-auto w-full max-w-5xl px-6 sm:px-10 lg:px-14">
           <a href="/" className="text-sm font-semibold text-[color:var(--primary)] hover:underline">Back to Asystence</a>
@@ -788,9 +922,9 @@ function LegalPage({ page }) {
 function Footer() {
   return (
     <footer className="border-t border-[color:var(--border)] py-12">
-      <div className="mx-auto flex w-full max-w-[1760px] flex-col gap-6 px-6 sm:px-10 md:flex-row md:items-center md:justify-between lg:px-14 xl:px-16">
+      <div className="site-container grid gap-8 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-center">
         <Brand compact />
-        <div className="flex flex-wrap gap-5 text-sm text-[color:var(--text-muted)]">
+        <div className="flex flex-wrap gap-x-5 gap-y-3 text-xs text-[color:var(--text-muted)] lg:justify-center">
           <a href="/#features" className="hover:text-[color:var(--text)]">Features</a>
           {MARKETING_PAGE_LIST.map((page) => (
             <a key={page.path} href={page.path} className="hover:text-[color:var(--text)]">{page.navLabel}</a>
@@ -800,6 +934,9 @@ function Footer() {
           ))}
           <a href="/#pricing" className="hover:text-[color:var(--text)]">Pricing</a>
           <a href="/#downloads" className="hover:text-[color:var(--text)]">Downloads</a>
+          <a href="/release-notes" className="hover:text-[color:var(--text)]">Release notes</a>
+          <a href="/changelog" className="hover:text-[color:var(--text)]">Changelog</a>
+          <a href="/roadmap" className="hover:text-[color:var(--text)]">Roadmap</a>
           <a href={APP_URL} className="hover:text-[color:var(--text)]">Sign in</a>
           {POLICY_LINKS.map((link) => (
             <a key={link.href} href={link.href} className="hover:text-[color:var(--text)]">{link.label}</a>
@@ -816,10 +953,20 @@ export default function App() {
     ? '/'
     : (window.location.pathname.replace(/\/+$/, '') || '/')
   const policyPage = POLICY_PAGES[normalizedPath]
+  const releaseRoute = getReleaseRoute(normalizedPath)
   const marketingPage = getMarketingPage(normalizedPath)
-  const contentPage = getContentPage(normalizedPath)
+  const contentPage = releaseRoute ? null : getContentPage(normalizedPath)
 
   useEffect(() => {
+    if (releaseRoute) {
+      const releaseSeo = getReleaseSeo(releaseRoute)
+      applySeo({
+        ...releaseSeo,
+        jsonLd: buildReleaseJsonLd(releaseRoute),
+      })
+      return
+    }
+
     if (marketingPage) {
       applySeo({
         title: marketingPage.seo.title,
@@ -857,12 +1004,14 @@ export default function App() {
       path: HOME_SEO.path,
       jsonLd: buildHomeJsonLd(),
     })
-  }, [contentPage, marketingPage, normalizedPath, policyPage])
+  }, [contentPage, marketingPage, normalizedPath, policyPage, releaseRoute])
 
   return (
     <>
       <Navbar />
-      {marketingPage ? (
+      {releaseRoute ? (
+        <ReleaseCenterPage route={releaseRoute} />
+      ) : marketingPage ? (
         <MarketingPage page={marketingPage} />
       ) : contentPage ? (
         <ContentPage page={contentPage} />
@@ -877,7 +1026,7 @@ export default function App() {
             title="Explore Asystence by the way your team works."
             links={HOME_RELATED_LINKS}
           >
-            Focused paths for teams evaluating AI work management, task management, team communication, and workspace collaboration software.
+            Focused paths through the Asystence intelligent workspace platform for projects, tasks, communication, AI assistance, and operations.
           </RelatedLinks>
           <RelatedLinks
             eyebrow="Knowledge center"

@@ -1,9 +1,9 @@
 import { SITE_URL, absoluteUrl } from './seo.js'
 
 export const HOME_SEO = {
-  title: 'Asystence | AI Work Management Software and Work OS for Teams',
+  title: 'Asystence | Intelligent Workspace Platform for Teams',
   description:
-    'Asystence is an AI-powered work OS for teams, unifying task management, team communication, project execution, workspace collaboration, and internal operations.',
+    'Asystence is an intelligent workspace platform for projects, tasks, team communication, AI assistance, workspace intelligence, attendance, availability, and operations.',
   path: '/',
 }
 
@@ -698,20 +698,20 @@ const softwareJsonLd = {
   '@type': 'SoftwareApplication',
   name: 'Asystence',
   applicationCategory: 'BusinessApplication',
-  applicationSubCategory: 'Work management software',
+  applicationSubCategory: 'Intelligent workspace platform',
   operatingSystem: 'Web, Windows, Android',
   url: SITE_URL,
   description: HOME_SEO.description,
   featureList: [
+    'Project management',
     'Task management',
     'Team communication',
     'Workspace collaboration',
-    'Project execution',
-    'Project management with team chat',
-    'Operations work management',
-    'Attendance and time tracking',
+    'AI assistance',
+    'Workspace intelligence',
+    'Attendance and availability intelligence',
+    'Operational intelligence',
     'Reviews and OKRs',
-    'AI-assisted workspace intelligence',
   ],
 }
 

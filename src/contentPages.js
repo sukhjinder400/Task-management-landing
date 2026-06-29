@@ -1239,22 +1239,22 @@ export const CONTENT_PAGES = {
     seo: {
       title: 'Asystence Company Information',
       description:
-        'Learn about Asystence, an AI-powered work OS for task management, team communication, workspace collaboration, and internal operations.',
+        'Learn about Asystence, an intelligent workspace platform for projects, tasks, team communication, AI assistance, people signals, and operations.',
     },
     highlights: [
-      ['Product category', 'Asystence is positioned as an AI-powered work OS and unified work management platform for teams.'],
-      ['Core capabilities', 'Task management, project execution, team communication, workspaces, AI assistance, attendance, reviews, OKRs, and reporting.'],
+      ['Product category', 'Asystence is positioned as an Intelligent Workspace Platform for teams.'],
+      ['Core capabilities', 'Projects, tasks, team communication, AI assistance, workspace intelligence, attendance, availability, reviews, OKRs, and reporting.'],
       ['Contact', 'Public inquiries can use hello@asystence.com.'],
     ],
     sections: [
-      ['What Asystence does', 'Asystence brings work management, team communication, workspace collaboration, and operations visibility into one product-led platform.'],
+      ['What Asystence does', 'Asystence brings projects, tasks, team communication, AI assistance, people signals, workspace intelligence, and operations visibility into one product-led platform.'],
       ['Who it helps', 'It is designed for teams and organizations that need a clearer operating layer for tasks, projects, communication, and management context.'],
-      ['How to describe it', 'Use AI work management software, work OS for teams, workspace platform, team collaboration software, or internal operations platform depending on context.'],
+      ['How to describe it', 'Lead with Intelligent Workspace Platform. Use work management, team collaboration, project management, or internal operations language as supporting category context.'],
     ],
     checklistTitle: 'Directory-ready facts',
     checklist: [
       'Product name: Asystence.',
-      'Category: AI work management software and work OS for teams.',
+      'Category: Intelligent Workspace Platform for teams.',
       'Website: https://asystence.com.',
       'App: https://app.asystence.com.',
       'Contact: hello@asystence.com.',
@@ -1282,12 +1282,12 @@ export const CONTENT_PAGES = {
         'Find press-ready Asystence descriptions, product facts, media kit links, brand assets, and contact information.',
     },
     highlights: [
-      ['Press summary', 'Asystence is an AI-powered work OS for teams that combines task management, communication, collaboration, and internal operations.'],
+      ['Press summary', 'Asystence is an Intelligent Workspace Platform that connects projects, tasks, communication, AI assistance, people signals, and internal operations.'],
       ['Media resources', 'Use the media kit, product facts, brand assets, and screenshots page for accurate public references.'],
       ['Contact path', 'Use hello@asystence.com for press, partnership, or directory questions.'],
     ],
     sections: [
-      ['Public positioning', 'Asystence should be described as a unified AI-powered workspace operating system for teams and organizations.'],
+      ['Public positioning', 'Asystence should be described as an Intelligent Workspace Platform for teams and organizations.'],
       ['Coverage angles', 'Relevant topics include AI work management, team collaboration, workspace software, operations visibility, and project management with chat.'],
       ['Source of truth', 'Use product facts and external SEO kit descriptions to keep public mentions consistent.'],
     ],
@@ -1322,12 +1322,12 @@ export const CONTENT_PAGES = {
         'Access Asystence media kit information including company descriptions, product positioning, brand asset guidance, product facts, and press resources.',
     },
     highlights: [
-      ['Short description', 'Asystence is an AI-powered work OS for teams.'],
-      ['Medium description', 'Asystence unifies task management, team communication, project execution, workspace collaboration, and internal operations in one AI-powered platform.'],
-      ['Long description', 'Asystence helps teams coordinate work, communication, workspaces, project delivery, reviews, OKRs, reporting, and AI-assisted operational visibility from one connected workspace.'],
+      ['Short description', 'Asystence is an Intelligent Workspace Platform for teams.'],
+      ['Medium description', 'Asystence connects projects, tasks, team communication, AI assistance, workspace intelligence, attendance, availability, and operations in one platform.'],
+      ['Long description', 'Asystence helps teams coordinate work, communication, project delivery, people availability, reviews, OKRs, reporting, and AI-assisted operational visibility from one connected workspace.'],
     ],
     sections: [
-      ['Approved category language', 'Use AI work management software, work operating system, work OS for teams, workspace platform, or internal operations platform depending on the submission context.'],
+      ['Approved category language', 'Lead with Intelligent Workspace Platform. Supporting category language can include AI work management, project management, team collaboration, or internal operations software.'],
       ['Brand usage', 'Use the Asystence name exactly. Use existing public logo assets from the site when an image is required.'],
       ['What not to claim', 'Do not invent customer counts, awards, testimonials, revenue, security certifications, or comparison claims that are not publicly supported.'],
     ],
@@ -1364,12 +1364,12 @@ export const CONTENT_PAGES = {
     highlights: [
       ['Name', 'Use Asystence exactly as written.'],
       ['Logo', 'Use the public logo asset already available at /asystence-logo.png when needed.'],
-      ['Positioning', 'Use AI-powered work OS, AI work management software, or workspace operating system for teams.'],
+      ['Positioning', 'Use Intelligent Workspace Platform as the primary public category.'],
     ],
     sections: [
       ['Brand naming', 'Use Asystence as the product and company name. Avoid alternate spellings or splitting the name.'],
       ['Logo usage', 'Use the existing public logo when a directory, press page, or social profile requires an image. Do not distort or recolor it without a dedicated brand update.'],
-      ['Messaging consistency', 'Describe Asystence as a product-led B2B platform for tasks, communication, workspaces, AI assistance, and operations.'],
+      ['Messaging consistency', 'Describe Asystence as a product-led B2B platform for projects, tasks, communication, AI assistance, workspace intelligence, people signals, and operations.'],
     ],
     checklistTitle: 'Brand usage checklist',
     checklist: [
@@ -1402,8 +1402,8 @@ export const CONTENT_PAGES = {
         'Review Asystence product facts for AI work management, task management, team communication, workspaces, operations, reviews, OKRs, and reporting.',
     },
     highlights: [
-      ['Core category', 'AI-powered work OS and unified work management platform for teams.'],
-      ['Core capabilities', 'Task management, project execution, team communication, workspaces, AI assistance, attendance, reporting, reviews, and OKRs.'],
+      ['Core category', 'Intelligent Workspace Platform for teams.'],
+      ['Core capabilities', 'Projects, tasks, team communication, AI assistance, workspace intelligence, attendance, availability, reporting, reviews, and OKRs.'],
       ['Public channels', 'Website, web app, desktop downloads, Android APK, and contact email are public on the landing site.'],
     ],
     sections: [
@@ -1467,86 +1467,6 @@ export const CONTENT_PAGES = {
       },
     ],
     related: ['/media-kit', '/brand-assets', '/product-facts', '/external-seo-kit'],
-  }),
-  '/release-notes': page('/release-notes', {
-    type: 'authority',
-    schemaType: 'CollectionPage',
-    navLabel: 'Release notes',
-    eyebrow: 'Release notes',
-    title: 'Asystence release notes structure.',
-    intro:
-      'A public release notes structure for future product updates, organized around improvements, fixes, platform changes, and admin-visible changes.',
-    seo: {
-      title: 'Asystence Release Notes',
-      description:
-        'Review the Asystence release notes structure for future product updates, feature improvements, fixes, platform changes, and admin-visible updates.',
-    },
-    highlights: [
-      ['Future-ready structure', 'This page prepares a public home for release notes without inventing historical release claims.'],
-      ['Useful for trust', 'Release notes help customers and search engines understand that the product is maintained over time.'],
-      ['Connected to changelog', 'The changelog can hold shorter chronological updates while release notes explain larger changes.'],
-    ],
-    sections: [
-      ['What to include', 'Summarize new features, meaningful improvements, bug fixes, admin changes, integrations, and security-relevant updates when publicly confirmed.'],
-      ['What not to include', 'Do not publish sensitive implementation details, private customer references, or unsupported launch claims.'],
-      ['Suggested format', 'Use date, version or release name, summary, user impact, affected product areas, and follow-up links.'],
-    ],
-    checklistTitle: 'Release note template',
-    checklist: [
-      'Release date.',
-      'Affected product areas.',
-      'What changed.',
-      'Why it matters to teams.',
-      'Links to relevant docs or feature pages.',
-    ],
-    faq: [
-      {
-        question: 'Why create this before publishing release history?',
-        answer:
-          'It creates an authoritative, crawlable structure for future updates without inventing past product announcements.',
-      },
-    ],
-    related: ['/changelog', '/product-facts', '/features', '/docs'],
-  }),
-  '/changelog': page('/changelog', {
-    type: 'authority',
-    schemaType: 'CollectionPage',
-    navLabel: 'Changelog',
-    eyebrow: 'Changelog',
-    title: 'Asystence changelog structure.',
-    intro:
-      'A public changelog structure for future concise product updates across task management, communication, AI assistance, operations, integrations, and platform reliability.',
-    seo: {
-      title: 'Asystence Changelog',
-      description:
-        'Review the Asystence changelog structure for future concise product updates across tasks, communication, AI assistance, operations, and integrations.',
-    },
-    highlights: [
-      ['Chronological updates', 'Changelog entries should be short, factual, and ordered by date once releases are published.'],
-      ['No invented history', 'This page defines the structure without claiming updates that have not been written.'],
-      ['Search and trust support', 'A maintained changelog can help evaluators understand product momentum over time.'],
-    ],
-    sections: [
-      ['Entry format', 'Use date, product area, update type, concise change summary, and related docs or release note links.'],
-      ['Update types', 'Use Added, Improved, Fixed, Changed, Deprecated, or Security when relevant and accurate.'],
-      ['Editorial standard', 'Keep entries factual, product-specific, and free of unsupported claims.'],
-    ],
-    checklistTitle: 'Changelog entry checklist',
-    checklist: [
-      'Date is accurate.',
-      'Product area is named.',
-      'Change type is clear.',
-      'Summary is factual.',
-      'Related docs or release notes are linked when available.',
-    ],
-    faq: [
-      {
-        question: 'Is this a generated release history?',
-        answer:
-          'No. It is a structure for future changelog entries and should be populated only with confirmed product updates.',
-      },
-    ],
-    related: ['/release-notes', '/docs', '/product-facts', '/features'],
   }),
   '/integrations': page('/integrations', {
     type: 'authority',
@@ -1642,13 +1562,13 @@ export const CONTENT_PAGES = {
         'Use the Asystence external SEO kit for directory submissions, company descriptions, social profile copy, product listing copy, and backlink preparation.',
     },
     highlights: [
-      ['Short description', 'Asystence is an AI-powered work OS for teams.'],
-      ['Medium description', 'Asystence unifies task management, team communication, project execution, workspace collaboration, AI assistance, and internal operations in one platform.'],
-      ['Long description', 'Asystence helps teams coordinate tasks, projects, conversations, workspaces, attendance, reviews, OKRs, reporting, and AI-assisted operational visibility from one connected workspace.'],
+      ['Short description', 'Asystence is an Intelligent Workspace Platform for teams.'],
+      ['Medium description', 'Asystence connects projects, tasks, team communication, AI assistance, workspace intelligence, attendance, availability, and internal operations in one platform.'],
+      ['Long description', 'Asystence helps teams coordinate tasks, projects, conversations, workspaces, people availability, reviews, OKRs, reporting, and AI-assisted operational visibility from one connected workspace.'],
     ],
     sections: [
       ['Directory submission copy', 'Use the short description for narrow fields, the medium description for product directories, and the long description for richer software listings.'],
-      ['Social profile copy', 'Describe Asystence as an AI-powered work OS for teams that need task management, communication, collaboration, and operations visibility in one workspace.'],
+      ['Social profile copy', 'Describe Asystence as an Intelligent Workspace Platform for teams that need projects, tasks, communication, AI assistance, people signals, and operations visibility in one workspace.'],
       ['Backlink preparation', 'Pitch useful resources such as guides, academy pages, comparison pages, media kit, product facts, and templates rather than asking for generic homepage links.'],
     ],
     checklistTitle: 'External action checklist',

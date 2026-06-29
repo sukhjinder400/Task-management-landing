@@ -64,8 +64,8 @@ export function applySeo({
   if (typeof document === 'undefined') return
 
   const url = absoluteUrl(path)
-  const pageTitle = title || 'Asystence | AI Work Management Software and Work OS for Teams'
-  const pageDescription = description || 'Asystence is an AI-powered work OS for task management, team communication, workspace collaboration, and internal operations.'
+  const pageTitle = title || 'Asystence | Intelligent Workspace Platform for Teams'
+  const pageDescription = description || 'Asystence is an intelligent workspace platform for projects, tasks, team communication, AI assistance, workspace intelligence, attendance, availability, and operations.'
 
   document.title = pageTitle
 
