@@ -748,17 +748,25 @@ function LinkGroups({ groups }) {
         <SectionHeader eyebrow="Information architecture" title="Explore the connected resource system.">
           These crawlable paths connect category education, product-led docs, templates, comparisons, and authority resources.
         </SectionHeader>
-        <div className="grid gap-4 lg:grid-cols-3">
+        <div className="space-y-10">
           {groups.map((group) => (
-            <div key={group.title} className="site-card">
-              <h2 className="text-lg font-semibold text-[color:var(--text)]">{group.title}</h2>
-              <div className="mt-5 space-y-3">
+            <div key={group.title}>
+              <div className="mb-4 flex items-center justify-between gap-4">
+                <h2 className="text-lg font-semibold text-[color:var(--text)]">{group.title}</h2>
+                <span className="rounded-full border border-[color:var(--border)] bg-[var(--surface-soft)] px-3 py-1 text-xs font-semibold text-[color:var(--text-muted)]">
+                  {group.links.length} {group.links.length === 1 ? 'page' : 'pages'}
+                </span>
+              </div>
+              <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {group.links.map((path) => {
                   const link = resolvePageLink(path)
                   return (
-                    <a key={path} href={link.href} className="site-card site-card-interactive p-4">
-                      <h3 className="text-sm font-semibold text-[color:var(--text)]">{link.label}</h3>
-                      <p className="mt-2 text-xs leading-5 text-[color:var(--text-muted)]">{link.description}</p>
+                    <a key={path} href={link.href} className="site-card site-card-interactive flex h-full flex-col p-5">
+                      <div className="flex items-start justify-between gap-4">
+                        <h3 className="text-base font-semibold text-[color:var(--text)]">{link.label}</h3>
+                        <ArrowRight aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-[color:var(--primary)]" />
+                      </div>
+                      <p className="mt-3 text-sm leading-6 text-[color:var(--text-muted)]">{link.description}</p>
                     </a>
                   )
                 })}
