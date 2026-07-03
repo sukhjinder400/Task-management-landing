@@ -40,6 +40,8 @@ import { applySeo } from './seo.js'
 
 const APP_URL = 'https://app.asystence.com'
 const SIGNUP_URL = `${APP_URL}/signup`
+const API_BASE_URL = String(import.meta.env.VITE_API_BASE_URL || '').replace(/\/+$/, '')
+const PUBLIC_PLANS_URL = API_BASE_URL ? `${API_BASE_URL}/public/billing/plans` : ''
 const WIN_INSTALLER_URL = 'https://github.com/sukhjinder-create/Task-management/releases/download/v1.0.0/Asystence.Setup.0.0.0.exe'
 const WIN_PORTABLE_URL = 'https://github.com/sukhjinder-create/Task-management/releases/download/v1.0.0/Asystence.0.0.0.exe'
 const ANDROID_APK_URL = 'https://pub-5e8d0742f1224c3dbf01efc7851e96f5.r2.dev/app-release.apk'
@@ -77,34 +79,6 @@ const WORKFLOW = [
   ['Run projects and conversations', 'Plan tasks, track owners, chat in context, and keep project decisions attached to execution.'],
   ['Let intelligence surface risk', 'AI-assisted summaries, coaching prompts, and workspace health signals help teams notice what needs attention.'],
   ['Measure what matters', 'Use attendance, reports, reviews, OKRs, and health views to keep internal teams aligned.'],
-]
-
-const PLANS = [
-  {
-    name: 'Basic',
-    price: 'Free',
-    period: 'forever to get started',
-    features: ['Up to 10 members', 'Task and sprint management', 'Team chat and channels', 'Basic attendance', 'Wiki spaces', '5 GB storage'],
-    cta: 'Start Free',
-    href: SIGNUP_URL,
-  },
-  {
-    name: 'Pro',
-    price: 'Rs 999',
-    period: 'per workspace / month',
-    highlight: true,
-    features: ['Up to 50 members', 'Everything in Basic', 'AI insights and coaching', 'Performance reviews', 'OKR tracking', 'Git automation', '50 GB storage'],
-    cta: 'Start Pro Trial',
-    href: SIGNUP_URL,
-  },
-  {
-    name: 'Enterprise',
-    price: 'Custom',
-    period: 'for larger teams',
-    features: ['Unlimited members', 'Everything in Pro', 'SAML SSO', 'Custom domain', 'Dedicated support', 'SLA guarantee', 'Custom integrations'],
-    cta: 'Contact Sales',
-    href: '/#contact',
-  },
 ]
 
 const POLICY_PAGES = {
@@ -478,31 +452,153 @@ function Workflow() {
   )
 }
 
+function readableFeature(feature) {
+  const value = String(feature || '').trim()
+  if (!value) return ''
+  if (!value.includes('_')) return value
+  return value
+    .split('_')
+    .filter(Boolean)
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ')
+}
+
+function planFeatures(plan) {
+  const features = (Array.isArray(plan.features) ? plan.features : [])
+    .map(readableFeature)
+    .filter(Boolean)
+  const has = (term) => features.some((feature) => feature.toLowerCase().includes(term))
+
+  if (plan.member_limit && !has('member')) features.unshift(`Up to ${plan.member_limit} members`)
+  if (plan.max_projects && !has('project')) features.push(`Up to ${plan.max_projects} projects`)
+  if (plan.max_integrations && !has('integration')) features.push(`Up to ${plan.max_integrations} integrations`)
+  if (plan.storage_limit_gb && !has('storage')) features.push(`${plan.storage_limit_gb} GB storage`)
+  return features
+}
+
+function planPrice(plan, interval) {
+  if (plan.is_custom) return 'Custom'
+  const monthly = Number(plan.price_monthly) || 0
+  const yearly = Number(plan.price_yearly) || 0
+  if (monthly === 0 && yearly === 0) return 'Free'
+  const amount = interval === 'yearly' && yearly > 0
+    ? yearly
+    : monthly > 0
+      ? monthly
+      : yearly
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: plan.currency || 'INR',
+    maximumFractionDigits: 0,
+  }).format(amount)
+}
+
+function planAction(plan, interval) {
+  const isFree = (Number(plan.price_monthly) || 0) === 0 && (Number(plan.price_yearly) || 0) === 0
+  if (plan.is_custom || (!isFree && !plan.trial_days)) {
+    return { label: 'Contact Sales', href: '/#contact' }
+  }
+
+  const effectiveInterval = isFree
+    ? interval
+    : interval === 'yearly' && Number(plan.price_yearly) > 0
+      ? 'yearly'
+      : Number(plan.price_monthly) > 0
+        ? 'monthly'
+        : 'yearly'
+  const params = new URLSearchParams({ plan: plan.slug, interval: effectiveInterval })
+  return {
+    label: isFree ? 'Start Free' : `Start ${plan.trial_days}-day trial`,
+    href: `${SIGNUP_URL}?${params.toString()}`,
+  }
+}
+
 function Pricing() {
+  const [plans, setPlans] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [interval, setInterval] = useState('monthly')
+
+  const loadPlans = async () => {
+    setLoading(true)
+    setError('')
+    try {
+      if (!PUBLIC_PLANS_URL) throw new Error('VITE_API_BASE_URL is not configured')
+      const response = await fetch(PUBLIC_PLANS_URL, { headers: { Accept: 'application/json' } })
+      if (!response.ok) throw new Error(`Plan service returned ${response.status}`)
+      const data = await response.json()
+      setPlans(Array.isArray(data) ? data : [])
+    } catch (loadError) {
+      console.error('Could not load public plans:', loadError)
+      setError('Plans are temporarily unavailable. Please try again shortly.')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    loadPlans()
+  }, [])
+
   return (
     <section id="pricing" className="border-t border-[color:var(--border)] py-24">
       <div className="site-container">
         <SectionHeader eyebrow="Pricing" title="Simple plans for teams at every stage.">
           Start free, then scale into AI intelligence, reviews, OKRs, and automation when your workspace needs it.
         </SectionHeader>
-        <div className="grid gap-4 lg:grid-cols-3">
-          {PLANS.map((plan) => (
-            <div key={plan.name} className={`site-card p-6 ${plan.highlight ? 'border-[color:var(--primary)]' : ''}`}>
-              {plan.highlight && <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">Most popular</p>}
-              <h3 className="text-xl font-semibold text-[color:var(--text)]">{plan.name}</h3>
-              <p className="mt-5 text-4xl font-semibold text-[color:var(--text)]">{plan.price}</p>
-              <p className="mt-2 text-sm text-[color:var(--text-muted)]">{plan.period}</p>
-              <ul className="mt-7 space-y-3">
-                {plan.features.map((feature) => (
-                  <li key={feature} className="text-sm text-[color:var(--text-muted)]">- {feature}</li>
-                ))}
-              </ul>
-              <a href={plan.href} className={`site-button mt-8 w-full ${plan.highlight ? 'site-button-primary' : 'site-button-secondary'}`}>
-                {plan.cta}
-              </a>
-            </div>
-          ))}
+        <div className="mb-8 flex justify-center">
+          <div className="inline-flex rounded-full border border-[color:var(--border)] bg-[var(--surface)] p-1">
+            {['monthly', 'yearly'].map((value) => (
+              <button
+                key={value}
+                type="button"
+                onClick={() => setInterval(value)}
+                className={`rounded-full px-4 py-2 text-xs font-semibold capitalize transition-colors ${interval === value ? 'bg-[color:var(--primary)] text-black' : 'text-[color:var(--text-muted)]'}`}
+              >
+                {value}
+              </button>
+            ))}
+          </div>
         </div>
+
+        {loading && <p className="text-center text-sm text-[color:var(--text-muted)]">Loading plans...</p>}
+        {!loading && error && (
+          <div className="site-card mx-auto max-w-xl p-6 text-center">
+            <p className="text-sm text-[color:var(--text-muted)]">{error}</p>
+            <button type="button" onClick={loadPlans} className="site-button site-button-secondary mt-4">Try again</button>
+          </div>
+        )}
+        {!loading && !error && plans.length === 0 && (
+          <p className="text-center text-sm text-[color:var(--text-muted)]">No plans are available right now.</p>
+        )}
+        {!loading && !error && plans.length > 0 && (
+          <div className="grid gap-4 lg:grid-cols-3">
+            {plans.map((plan) => {
+              const action = planAction(plan, interval)
+              const isFree = (Number(plan.price_monthly) || 0) === 0 && (Number(plan.price_yearly) || 0) === 0
+              const usesYearly = interval === 'yearly' && Number(plan.price_yearly) > 0
+              return (
+                <div key={plan.id || plan.slug} className={`site-card p-6 ${plan.is_popular ? 'border-[color:var(--primary)]' : ''}`}>
+                  {plan.is_popular && <p className="mb-4 text-xs font-semibold uppercase tracking-[0.18em] text-[color:var(--primary)]">Most popular</p>}
+                  <h3 className="text-xl font-semibold text-[color:var(--text)]">{plan.name}</h3>
+                  {plan.tagline && <p className="mt-2 text-sm text-[color:var(--text-muted)]">{plan.tagline}</p>}
+                  <p className="mt-5 text-4xl font-semibold text-[color:var(--text)]">{planPrice(plan, interval)}</p>
+                  <p className="mt-2 text-sm text-[color:var(--text-muted)]">
+                    {plan.is_custom ? 'Tailored to your organization' : isFree ? 'No payment required' : `per user / ${usesYearly ? 'year' : 'month'}`}
+                  </p>
+                  <ul className="mt-7 space-y-3">
+                    {planFeatures(plan).map((feature) => (
+                      <li key={feature} className="text-sm text-[color:var(--text-muted)]">- {feature}</li>
+                    ))}
+                  </ul>
+                  <a href={action.href} className={`site-button mt-8 w-full ${plan.is_popular ? 'site-button-primary' : 'site-button-secondary'}`}>
+                    {action.label}
+                  </a>
+                </div>
+              )
+            })}
+          </div>
+        )}
       </div>
     </section>
   )
